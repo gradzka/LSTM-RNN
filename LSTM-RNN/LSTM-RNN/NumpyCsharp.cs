@@ -118,6 +118,11 @@ namespace LSTM_RNN
             return new double[X.GetLength(0), X.GetLength(1)];
         }
 
+        public double[] Zeros_like(double[] X)  // zwraca wyzerowana tablice o takiej samej wielkosci jak podana w argumencie
+        {
+            return new double[X.GetLength(0)];
+        }
+
         public double[,] Random2D(int wi, int kol) // zwraca tablice 2D wypelniona losowymi danymi z przedziału <0,1)
         {
             double[,] result = new double[wi, kol];
