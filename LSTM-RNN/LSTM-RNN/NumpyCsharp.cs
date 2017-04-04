@@ -123,6 +123,11 @@ namespace LSTM_RNN
             return new double[X.GetLength(0)];
         }
 
+        public double[] Zeros(int temp) // zwraca wyzerowana tablice 1D o dlugosci temp
+        {
+            return new double[temp];
+        }
+
         public double[,] Random2D(int wi, int kol) // zwraca tablice 2D wypelniona losowymi danymi z przedziału <0,1)
         {
             double[,] result = new double[wi, kol];
