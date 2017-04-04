@@ -41,12 +41,19 @@ namespace LSTM_RNN
             Console.WriteLine();
             Console.ReadKey();
         }
-        public double[] Exp(double[] lista)  // potegowanie e^k, gdzie k to liczby z listy
+        public double[,] Exp(double[,] lista)  // potegowanie e^k, gdzie k to liczby z listy
         {
+            /* lista = 
+             * { 
+             *   {1,2,3}
+             * }
+             * czyli jeden wiersz i trzy kolumny
+             */
+
             double e = Math.E;
             for (int i = 0; i < lista.Length; i++)
             {
-                lista[i] = Math.Pow(e, lista[i]);
+                lista[0,i] = Math.Pow(e, lista[0,i]);
             }
             return lista;
         }
