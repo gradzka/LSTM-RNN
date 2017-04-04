@@ -1,0 +1,9 @@
+C:\Users\Laboratorium\Desktop\projekt_SI\LSTM-RNN\LSTM-RNN\LSTM-RNN\bin\Debug\LSTM-RNN.exe.config
+C:\Users\Laboratorium\Desktop\projekt_SI\LSTM-RNN\LSTM-RNN\LSTM-RNN\bin\Debug\LSTM-RNN.exe
+C:\Users\Laboratorium\Desktop\projekt_SI\LSTM-RNN\LSTM-RNN\LSTM-RNN\bin\Debug\LSTM-RNN.pdb
+C:\Users\Laboratorium\Desktop\projekt_SI\LSTM-RNN\LSTM-RNN\LSTM-RNN\obj\Debug\LSTM-RNN.csprojResolveAssemblyReference.cache
+C:\Users\Laboratorium\Desktop\projekt_SI\LSTM-RNN\LSTM-RNN\LSTM-RNN\obj\Debug\LSTM_RNN.Kontakt.resources
+C:\Users\Laboratorium\Desktop\projekt_SI\LSTM-RNN\LSTM-RNN\LSTM-RNN\obj\Debug\LSTM_RNN.Properties.Resources.resources
+C:\Users\Laboratorium\Desktop\projekt_SI\LSTM-RNN\LSTM-RNN\LSTM-RNN\obj\Debug\LSTM-RNN.csproj.GenerateResource.Cache
+C:\Users\Laboratorium\Desktop\projekt_SI\LSTM-RNN\LSTM-RNN\LSTM-RNN\obj\Debug\LSTM-RNN.exe
+C:\Users\Laboratorium\Desktop\projekt_SI\LSTM-RNN\LSTM-RNN\LSTM-RNN\obj\Debug\LSTM-RNN.pdb

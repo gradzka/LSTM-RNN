@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NumpyCsharp; // [Krzysiek] to dodałem
 
 namespace LSTM_RNN
 {
@@ -17,6 +18,7 @@ namespace LSTM_RNN
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Kontakt());
+            // NumpyCsharp.NumpyCsharp np = new NumpyCsharp.NumpyCsharp(0); // [Krzysiek] obiekt biblioteki
         }
     }
 }
