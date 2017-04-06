@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -110,14 +111,14 @@ namespace LSTM_RNN
                 double[] c = numberToBitArray(a_int, binary_dim);
 
                 //where we'll store our best guess (binary encoded)
-                /*double[] d = numpy.Zeros_like(c);
+                double[] d = numpy.Zeros_like(c);
 
                 double overallError = 0;
 
 
-                layer_2_deltas = list()
-                layer_1_values = list()
-                layer_1_values.append(np.zeros(hidden_dim))
+                ArrayList layer_2_deltas = new ArrayList();
+                ArrayList layer_1_values = new ArrayList();
+/*                layer_1_values.Add(numpy.Zeros_like(hidden_dim));
 
                 //moving along the positions in the binary encoding
                 for (int position=0; position < binary_dim; position++)
@@ -177,8 +178,8 @@ namespace LSTM_RNN
                 if (j % 1000 == 0)
                 {
                     Console.WriteLine("Error: " + overallError.ToString());
-                    Console.WriteLine("Pred: " + d.ToString());
-                    Console.WriteLine("True: " + c.ToString());
+                    Console.Write("Pred: "); print_1d_matrix(d); Console.WriteLine(""); 
+                    Console.Write("True: " ); print_1d_matrix(c); Console.WriteLine(""); 
 
                     int out = 0;
                     for index, x in enumerate(reversed(d)):
