@@ -27,7 +27,7 @@ namespace LSTM_RNN
                 }
                 Console.WriteLine();
             }
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
         public void print_1d_matrix(double[] matrix)  // pomocnicza do wyswietlania macierzy 1D=wektora
@@ -39,7 +39,7 @@ namespace LSTM_RNN
                 Console.Write(matrix[i] + " ");
             }
             Console.WriteLine();
-            Console.ReadKey();
+            //Console.ReadKey();
         }
         public double[,] Exp(double[,] lista)  // potegowanie e^k, gdzie k to liczby z listy
         {
