@@ -237,13 +237,49 @@ namespace LSTM_RNN
 
         public double[,] Atleast_2d(double[] matrix)
         {
+            /* na wejsciu: {1,2,3}
+             * na wyjsciu: { {1,2,3},{0,0,0},{0,0,0} } = 3x3, pierwszy wiersz zawiera wektor z wejscia, reszta 0
+             */
             int w = matrix.GetLength(0);
 
             var result = new double[w, w];
 
-            for (int i = 0; i < w; i++)
+            for (int k = 0; k < w; k++)
             {
-                result[0, i] = matrix[i];
+                result[0, k] = matrix[k];
+            }
+
+            for (int i = 1; i < w; i++)
+            {
+                for (int j = 0; j < w; j++)
+                {
+                    result[i, j] = 0;
+                }
+            }
+            return result;
+        }
+
+        public double[,] Atleast_2d(double[,] matrix)
+        {
+            /* na wejsciu: { {1,2,3} }
+             * na wyjsciu: { {1,2,3},{0,0,0},{0,0,0} } = 3x3, pierwszy wiersz zawiera pierwszy wiersz
+             *                                              z wejscia, reszta 0
+             */
+            int w = matrix.GetLength(1); // wymiar kolumn, bo na wyjsciu bedzie macierz kwadratowa
+
+            var result = new double[w, w];
+
+            for (int k = 0; k < w; k++)
+            {
+                result[0, k] = matrix[0, k];
+            }
+
+            for (int i = 1; i < w; i++)
+            {
+                for (int j = 0; j < w; j++)
+                {
+                    result[i, j] = 0;
+                }
             }
             return result;
         }
