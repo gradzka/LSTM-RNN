@@ -16,7 +16,7 @@ namespace LSTM_RNN
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Kontakt());
+            Application.Run(new MainWindow());
         }
     }
 }

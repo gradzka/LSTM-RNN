@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace LSTM_RNN
 {
-    public partial class Kontakt : Form
+    public partial class MainWindow : Form
     {
-        public Kontakt()
+        public MainWindow()
         {
             InitializeComponent();
         }

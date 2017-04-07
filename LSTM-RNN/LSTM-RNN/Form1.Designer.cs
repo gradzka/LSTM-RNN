@@ -1,6 +1,6 @@
 ﻿namespace LSTM_RNN
 {
-    partial class Kontakt
+    partial class MainWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Kontakt));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -196,6 +196,11 @@
             // numericUpDown5
             // 
             this.numericUpDown5.Location = new System.Drawing.Point(104, 139);
+            this.numericUpDown5.Maximum = new decimal(new int[] {
+            16,
+            0,
+            0,
+            0});
             this.numericUpDown5.Minimum = new decimal(new int[] {
             1,
             0,
@@ -492,9 +497,9 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 503);
+            this.progressBar1.Location = new System.Drawing.Point(0, 503);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(842, 23);
+            this.progressBar1.Size = new System.Drawing.Size(872, 23);
             this.progressBar1.TabIndex = 3;
             // 
             // button1
@@ -607,11 +612,12 @@
             this.AboutTS.Text = "O programie";
             this.AboutTS.Click += new System.EventHandler(this.AboutTS_Click);
             // 
-            // Kontakt
+            // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::LSTM_RNN.Properties.Resources.szata2;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(872, 541);
             this.Controls.Add(this.h_node0);
             this.Controls.Add(this.toolStrip1);
@@ -620,10 +626,11 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "Kontakt";
+            this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LSTM-RNN";
             this.Click += new System.EventHandler(this.h_node0_Click);
