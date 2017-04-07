@@ -234,5 +234,18 @@ namespace LSTM_RNN
             }
             return result;
         }
+
+        public double[,] Atleast_2d(double[] matrix)
+        {
+            int w = matrix.GetLength(0);
+
+            var result = new double[w, w];
+
+            for (int i = 0; i < w; i++)
+            {
+                result[0, i] = matrix[i];
+            }
+            return result;
+        }
     }
 }
