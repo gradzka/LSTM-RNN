@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace LSTM_RNN
 {
-
     class LSTM
     {
         NumpyCsharp numpy;
@@ -21,19 +21,31 @@ namespace LSTM_RNN
         const int output_dim = 1;
         int loop;
 
-        LSTM()
-        {
-            numpy = new NumpyCsharp(0);
-            binary_dim = 8;
-            largest_number = (1 << binary_dim);
-            alpha = 0.1;
-            hidden_dim = 16;
-            loop = 10000;
-        }
+        public event Action<int> ProgressBarChanged;
+        public event Action<string> LErrorChanged;
+        public event Action<string> LPredChanged;
+        public event Action<string> LTrueChanged;
+        public event Action<string> LWizChanged;
 
-        void setSeed(int seed)
+        //without seed in numpy
+        public LSTM(int binaryDim, double alpha, int hiddenDim, int iterations)
+        {
+            numpy = new NumpyCsharp();
+            this.binary_dim = binaryDim;
+            largest_number = (1 << binaryDim);
+            this.alpha = alpha;
+            this.hidden_dim = hiddenDim;
+            this.loop = iterations;
+        }
+        //with seed in numpy
+        public LSTM(int binaryDim, double alpha, int hiddenDim, int iterations, int seed)
         {
             numpy = new NumpyCsharp(seed);
+            this.binary_dim = binaryDim;
+            largest_number = (1 << binaryDim);
+            this.alpha = alpha;
+            this.hidden_dim = hiddenDim;
+            this.loop = iterations;
         }
 
         //compute sigmoid nonlinearity
@@ -163,11 +175,67 @@ namespace LSTM_RNN
                 newArray[i] = array[row, i];
             return newArray;
         }
-
-        void trainNetwork()
+        //Console.Write("Pred: "); numpy.print_1d_matrix(d); Console.WriteLine("");
+        string getStringFrom1dMatrix(double[] d)
         {
-            //initialize neural network weights
+            string Matrix1dString = string.Empty;
+            foreach(double elem in d)
+            {
+                Matrix1dString += elem.ToString() + " ";
+            }
+            Matrix1dString=Matrix1dString.Remove(Matrix1dString.Length - 1, 1);
+            return Matrix1dString;
+        }
 
+        private void OnProgressBarChanged()
+        {
+            var action = ProgressBarChanged;
+            if (action != null)
+            {
+                action(1);
+            }
+        }
+        private void OnLErrorChanged(string value)
+        {
+            var action = LErrorChanged;
+            if (action != null)
+            {
+                action(value);
+            }
+        }
+        private void OnLPredChanged(string value)
+        {
+            var action = LPredChanged;
+            if (action != null)
+            {
+                action(value);
+            }
+        }
+        private void OnLTrueChanged(string value)
+        {
+            var action = LTrueChanged;
+            if (action != null)
+            {
+                action(value);
+            }
+        }
+        private void OnLWizChanged(string value)
+        {
+            var action = LWizChanged;
+            if (action != null)
+            {
+                action(value);
+            }
+        }
+
+        public void trainNetwork()
+        {
+            MainWindow mw = new MainWindow();
+            mw.progressBar.Value = 0;
+            mw.progressBar.Maximum = loop;
+            
+
+            //initialize neural network weights
             double[,] synapse_0 = numpy.Random2D(input_dim, hidden_dim);
             double[,] synapse_1 = numpy.Random2D(hidden_dim, output_dim);
             double[,] synapse_h = numpy.Random2D(hidden_dim, hidden_dim);
@@ -263,20 +331,25 @@ namespace LSTM_RNN
                 synapse_h_update = multiplyTable(synapse_h_update, 0);
 
                 //print out progress
-                if (j % 1000 == 0)
+                if (j % 1000 == 0 || (j==loop-1))
                 {
-                    Console.WriteLine("Error: " + overallError.ToString());
-                    Console.Write("Pred: "); numpy.print_1d_matrix(d); Console.WriteLine("");
-                    Console.Write("True: "); numpy.print_1d_matrix(c); Console.WriteLine("");
+                    //Console.WriteLine("Error: " + overallError.ToString());
+                    OnLErrorChanged(overallError.ToString());
+                    //Console.Write("Pred: "); numpy.print_1d_matrix(d); Console.WriteLine("");
+                    OnLPredChanged(getStringFrom1dMatrix(d));
+                    //Console.Write("True: "); numpy.print_1d_matrix(c); Console.WriteLine("");
+                    OnLTrueChanged(getStringFrom1dMatrix(c));
 
                     out_result = 0;
                     for (int i = 0; i < d.Length; i++)
                     {
                         out_result += (int)d[d.Length - 1 - i] * (1 << i);
                     }
-                    Console.WriteLine(a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString());
-                    Console.WriteLine("------------");
+                    OnLWizChanged(a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString());
+                    //Console.WriteLine(a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString());
+                    //Console.WriteLine("------------");
                 }
+                OnProgressBarChanged();
             }
         }
     }

@@ -9,6 +9,10 @@ namespace LSTM_RNN
     class NumpyCsharp
     {
         public Random random;
+        public NumpyCsharp()
+        {
+            random = new Random(); // ustawienie ziarna generatora liczb pseudolosowych
+        }
         public NumpyCsharp(int val)
         {
             random = new Random(val); // ustawienie ziarna generatora liczb pseudolosowych

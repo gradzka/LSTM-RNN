@@ -32,14 +32,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.CHBoxRandom = new System.Windows.Forms.CheckBox();
+            this.NumRandom = new System.Windows.Forms.NumericUpDown();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.NumIterations = new System.Windows.Forms.NumericUpDown();
+            this.NumHiddenDim = new System.Windows.Forms.NumericUpDown();
+            this.NumAlpha = new System.Windows.Forms.NumericUpDown();
+            this.NumBinDim = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -48,10 +48,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.TrainingButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.WizLabel = new System.Windows.Forms.Label();
-            this.TrueLabel = new System.Windows.Forms.Label();
-            this.PredLabel = new System.Windows.Forms.Label();
-            this.ErrorLabel = new System.Windows.Forms.Label();
+            this.LWiz = new System.Windows.Forms.Label();
+            this.LTrue = new System.Windows.Forms.Label();
+            this.LPred = new System.Windows.Forms.Label();
+            this.LError = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -62,25 +62,41 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.TestButton = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.button1 = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.h_node0 = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.numericUpDown9 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown8 = new System.Windows.Forms.NumericUpDown();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.KontaktTS = new System.Windows.Forms.ToolStripButton();
             this.AboutTS = new System.Windows.Forms.ToolStripButton();
+            this.h_node0 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
+            this.button13 = new System.Windows.Forms.Button();
+            this.button14 = new System.Windows.Forms.Button();
+            this.button15 = new System.Windows.Forms.Button();
+            this.button16 = new System.Windows.Forms.Button();
+            this.BStop = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumRandom)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumIterations)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumHiddenDim)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumAlpha)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumBinDim)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
@@ -97,10 +113,10 @@
             this.groupBox1.Controls.Add(this.groupBox4);
             this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.Controls.Add(this.numericUpDown7);
-            this.groupBox1.Controls.Add(this.numericUpDown5);
-            this.groupBox1.Controls.Add(this.numericUpDown3);
-            this.groupBox1.Controls.Add(this.numericUpDown2);
+            this.groupBox1.Controls.Add(this.NumIterations);
+            this.groupBox1.Controls.Add(this.NumHiddenDim);
+            this.groupBox1.Controls.Add(this.NumAlpha);
+            this.groupBox1.Controls.Add(this.NumBinDim);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.label9);
@@ -112,50 +128,51 @@
             this.groupBox1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.groupBox1.Location = new System.Drawing.Point(12, 48);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(207, 242);
+            this.groupBox1.Size = new System.Drawing.Size(287, 242);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "TRENING";
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.checkBox1);
-            this.groupBox4.Controls.Add(this.numericUpDown1);
+            this.groupBox4.Controls.Add(this.CHBoxRandom);
+            this.groupBox4.Controls.Add(this.NumRandom);
             this.groupBox4.Location = new System.Drawing.Point(9, 19);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(192, 48);
+            this.groupBox4.Size = new System.Drawing.Size(270, 48);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Seed";
             this.ToolTip.SetToolTip(this.groupBox4, "Ziarno pseudolosowego generatora");
             // 
-            // checkBox1
+            // CHBoxRandom
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(5, 20);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(68, 18);
-            this.checkBox1.TabIndex = 4;
-            this.checkBox1.Text = "Random";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.CHBoxRandom.AutoSize = true;
+            this.CHBoxRandom.Location = new System.Drawing.Point(33, 21);
+            this.CHBoxRandom.Name = "CHBoxRandom";
+            this.CHBoxRandom.Size = new System.Drawing.Size(68, 18);
+            this.CHBoxRandom.TabIndex = 1;
+            this.CHBoxRandom.Text = "Random";
+            this.CHBoxRandom.UseVisualStyleBackColor = true;
+            this.CHBoxRandom.CheckedChanged += new System.EventHandler(this.CHBoxRandom_CheckedChanged);
             // 
-            // numericUpDown1
+            // NumRandom
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(73, 18);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.NumRandom.Location = new System.Drawing.Point(128, 19);
+            this.NumRandom.Maximum = new decimal(new int[] {
             -1,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(114, 20);
-            this.numericUpDown1.TabIndex = 4;
-            this.numericUpDown1.ThousandsSeparator = true;
+            this.NumRandom.Name = "NumRandom";
+            this.NumRandom.Size = new System.Drawing.Size(114, 20);
+            this.NumRandom.TabIndex = 2;
+            this.NumRandom.ThousandsSeparator = true;
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(104, 162);
+            this.label15.Location = new System.Drawing.Point(141, 161);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(14, 14);
             this.label15.TabIndex = 25;
@@ -164,103 +181,108 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(104, 119);
+            this.label14.Location = new System.Drawing.Point(140, 118);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(14, 14);
             this.label14.TabIndex = 12;
             this.label14.Text = "2";
             // 
-            // numericUpDown7
+            // NumIterations
             // 
-            this.numericUpDown7.Location = new System.Drawing.Point(104, 183);
-            this.numericUpDown7.Maximum = new decimal(new int[] {
+            this.NumIterations.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.NumIterations.Location = new System.Drawing.Point(137, 182);
+            this.NumIterations.Maximum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
-            this.numericUpDown7.Minimum = new decimal(new int[] {
+            this.NumIterations.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown7.Name = "numericUpDown7";
-            this.numericUpDown7.Size = new System.Drawing.Size(97, 20);
-            this.numericUpDown7.TabIndex = 24;
-            this.numericUpDown7.ThousandsSeparator = true;
-            this.numericUpDown7.Value = new decimal(new int[] {
+            this.NumIterations.Name = "NumIterations";
+            this.NumIterations.Size = new System.Drawing.Size(114, 20);
+            this.NumIterations.TabIndex = 6;
+            this.NumIterations.ThousandsSeparator = true;
+            this.NumIterations.Value = new decimal(new int[] {
             10000,
             0,
             0,
             0});
             // 
-            // numericUpDown5
+            // NumHiddenDim
             // 
-            this.numericUpDown5.Location = new System.Drawing.Point(104, 139);
-            this.numericUpDown5.Maximum = new decimal(new int[] {
+            this.NumHiddenDim.Location = new System.Drawing.Point(137, 138);
+            this.NumHiddenDim.Maximum = new decimal(new int[] {
             16,
             0,
             0,
             0});
-            this.numericUpDown5.Minimum = new decimal(new int[] {
+            this.NumHiddenDim.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown5.Name = "numericUpDown5";
-            this.numericUpDown5.Size = new System.Drawing.Size(97, 20);
-            this.numericUpDown5.TabIndex = 22;
-            this.numericUpDown5.Value = new decimal(new int[] {
-            1,
+            this.NumHiddenDim.Name = "NumHiddenDim";
+            this.NumHiddenDim.Size = new System.Drawing.Size(114, 20);
+            this.NumHiddenDim.TabIndex = 5;
+            this.NumHiddenDim.Value = new decimal(new int[] {
+            16,
             0,
             0,
             0});
             // 
-            // numericUpDown3
+            // NumAlpha
             // 
-            this.numericUpDown3.DecimalPlaces = 2;
-            this.numericUpDown3.Increment = new decimal(new int[] {
+            this.NumAlpha.DecimalPlaces = 2;
+            this.NumAlpha.Increment = new decimal(new int[] {
             1,
             0,
             0,
             131072});
-            this.numericUpDown3.Location = new System.Drawing.Point(104, 96);
-            this.numericUpDown3.Maximum = new decimal(new int[] {
+            this.NumAlpha.Location = new System.Drawing.Point(137, 95);
+            this.NumAlpha.Maximum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown3.Minimum = new decimal(new int[] {
+            this.NumAlpha.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             131072});
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(97, 20);
-            this.numericUpDown3.TabIndex = 20;
-            this.numericUpDown3.Value = new decimal(new int[] {
+            this.NumAlpha.Name = "NumAlpha";
+            this.NumAlpha.Size = new System.Drawing.Size(114, 20);
+            this.NumAlpha.TabIndex = 4;
+            this.NumAlpha.Value = new decimal(new int[] {
             1,
             0,
             0,
             131072});
             // 
-            // numericUpDown2
+            // NumBinDim
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(104, 74);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
-            32,
+            this.NumBinDim.Location = new System.Drawing.Point(137, 73);
+            this.NumBinDim.Maximum = new decimal(new int[] {
+            16,
             0,
             0,
             0});
-            this.numericUpDown2.Minimum = new decimal(new int[] {
+            this.NumBinDim.Minimum = new decimal(new int[] {
             2,
             0,
             0,
             0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(97, 20);
-            this.numericUpDown2.TabIndex = 19;
-            this.numericUpDown2.Value = new decimal(new int[] {
-            2,
+            this.NumBinDim.Name = "NumBinDim";
+            this.NumBinDim.Size = new System.Drawing.Size(114, 20);
+            this.NumBinDim.TabIndex = 3;
+            this.NumBinDim.Value = new decimal(new int[] {
+            8,
             0,
             0,
             0});
@@ -268,7 +290,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(14, 185);
+            this.label11.Location = new System.Drawing.Point(32, 184);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(84, 14);
             this.label11.TabIndex = 18;
@@ -278,7 +300,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(7, 163);
+            this.label10.Location = new System.Drawing.Point(25, 162);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(91, 14);
             this.label10.TabIndex = 17;
@@ -288,7 +310,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(7, 141);
+            this.label9.Location = new System.Drawing.Point(25, 140);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(91, 14);
             this.label9.TabIndex = 16;
@@ -298,7 +320,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(14, 119);
+            this.label8.Location = new System.Drawing.Point(32, 118);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(84, 14);
             this.label8.TabIndex = 15;
@@ -308,7 +330,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(49, 98);
+            this.label7.Location = new System.Drawing.Point(67, 97);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(49, 14);
             this.label7.TabIndex = 14;
@@ -318,7 +340,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 76);
+            this.label6.Location = new System.Drawing.Point(27, 75);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(91, 14);
             this.label6.TabIndex = 13;
@@ -330,21 +352,22 @@
             this.TrainingButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TrainingButton.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.TrainingButton.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.TrainingButton.Location = new System.Drawing.Point(6, 212);
+            this.TrainingButton.Location = new System.Drawing.Point(28, 213);
             this.TrainingButton.Name = "TrainingButton";
-            this.TrainingButton.Size = new System.Drawing.Size(195, 23);
-            this.TrainingButton.TabIndex = 4;
+            this.TrainingButton.Size = new System.Drawing.Size(223, 23);
+            this.TrainingButton.TabIndex = 7;
             this.TrainingButton.Text = "Trenuj";
             this.ToolTip.SetToolTip(this.TrainingButton, "Rozpocznij trenowanie sieci\r\nz zadanymi parametrami.");
             this.TrainingButton.UseVisualStyleBackColor = false;
+            this.TrainingButton.Click += new System.EventHandler(this.TrainingButton_Click);
             // 
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.groupBox2.Controls.Add(this.WizLabel);
-            this.groupBox2.Controls.Add(this.TrueLabel);
-            this.groupBox2.Controls.Add(this.PredLabel);
-            this.groupBox2.Controls.Add(this.ErrorLabel);
+            this.groupBox2.Controls.Add(this.LWiz);
+            this.groupBox2.Controls.Add(this.LTrue);
+            this.groupBox2.Controls.Add(this.LPred);
+            this.groupBox2.Controls.Add(this.LError);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label2);
@@ -352,46 +375,42 @@
             this.groupBox2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.groupBox2.Location = new System.Drawing.Point(12, 296);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(207, 82);
+            this.groupBox2.Size = new System.Drawing.Size(287, 82);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "WYNIK";
             // 
-            // WizLabel
+            // LWiz
             // 
-            this.WizLabel.AutoSize = true;
-            this.WizLabel.Location = new System.Drawing.Point(53, 63);
-            this.WizLabel.Name = "WizLabel";
-            this.WizLabel.Size = new System.Drawing.Size(42, 14);
-            this.WizLabel.TabIndex = 11;
-            this.WizLabel.Text = "0+0=0";
+            this.LWiz.Location = new System.Drawing.Point(53, 63);
+            this.LWiz.Name = "LWiz";
+            this.LWiz.Size = new System.Drawing.Size(226, 14);
+            this.LWiz.TabIndex = 11;
+            this.LWiz.Text = "0+0=0";
             // 
-            // TrueLabel
+            // LTrue
             // 
-            this.TrueLabel.AutoSize = true;
-            this.TrueLabel.Location = new System.Drawing.Point(52, 45);
-            this.TrueLabel.Name = "TrueLabel";
-            this.TrueLabel.Size = new System.Drawing.Size(14, 14);
-            this.TrueLabel.TabIndex = 10;
-            this.TrueLabel.Text = "0";
+            this.LTrue.Location = new System.Drawing.Point(52, 45);
+            this.LTrue.Name = "LTrue";
+            this.LTrue.Size = new System.Drawing.Size(227, 14);
+            this.LTrue.TabIndex = 10;
+            this.LTrue.Text = "0";
             // 
-            // PredLabel
+            // LPred
             // 
-            this.PredLabel.AutoSize = true;
-            this.PredLabel.Location = new System.Drawing.Point(52, 31);
-            this.PredLabel.Name = "PredLabel";
-            this.PredLabel.Size = new System.Drawing.Size(14, 14);
-            this.PredLabel.TabIndex = 9;
-            this.PredLabel.Text = "0";
+            this.LPred.Location = new System.Drawing.Point(52, 31);
+            this.LPred.Name = "LPred";
+            this.LPred.Size = new System.Drawing.Size(227, 14);
+            this.LPred.TabIndex = 9;
+            this.LPred.Text = "0";
             // 
-            // ErrorLabel
+            // LError
             // 
-            this.ErrorLabel.AutoSize = true;
-            this.ErrorLabel.Location = new System.Drawing.Point(52, 17);
-            this.ErrorLabel.Name = "ErrorLabel";
-            this.ErrorLabel.Size = new System.Drawing.Size(14, 14);
-            this.ErrorLabel.TabIndex = 8;
-            this.ErrorLabel.Text = "0";
+            this.LError.Location = new System.Drawing.Point(52, 17);
+            this.LError.Name = "LError";
+            this.LError.Size = new System.Drawing.Size(227, 14);
+            this.LError.TabIndex = 8;
+            this.LError.Text = "0";
             // 
             // label4
             // 
@@ -444,29 +463,29 @@
             this.groupBox3.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.groupBox3.Location = new System.Drawing.Point(12, 385);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(207, 98);
+            this.groupBox3.Size = new System.Drawing.Size(287, 98);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "TEST";
             // 
             // numericUpDown6
             // 
-            this.numericUpDown6.Location = new System.Drawing.Point(87, 41);
+            this.numericUpDown6.Location = new System.Drawing.Point(137, 43);
             this.numericUpDown6.Name = "numericUpDown6";
             this.numericUpDown6.Size = new System.Drawing.Size(114, 20);
-            this.numericUpDown6.TabIndex = 14;
+            this.numericUpDown6.TabIndex = 9;
             // 
             // numericUpDown4
             // 
-            this.numericUpDown4.Location = new System.Drawing.Point(87, 18);
+            this.numericUpDown4.Location = new System.Drawing.Point(137, 17);
             this.numericUpDown4.Name = "numericUpDown4";
             this.numericUpDown4.Size = new System.Drawing.Size(114, 20);
-            this.numericUpDown4.TabIndex = 5;
+            this.numericUpDown4.TabIndex = 8;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(6, 19);
+            this.label13.Location = new System.Drawing.Point(33, 20);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(77, 14);
             this.label13.TabIndex = 13;
@@ -476,7 +495,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(7, 43);
+            this.label12.Location = new System.Drawing.Point(33, 45);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(77, 14);
             this.label12.TabIndex = 12;
@@ -487,20 +506,20 @@
             // 
             this.TestButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TestButton.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TestButton.Location = new System.Drawing.Point(6, 68);
+            this.TestButton.Location = new System.Drawing.Point(30, 69);
             this.TestButton.Name = "TestButton";
-            this.TestButton.Size = new System.Drawing.Size(195, 23);
-            this.TestButton.TabIndex = 7;
+            this.TestButton.Size = new System.Drawing.Size(221, 23);
+            this.TestButton.TabIndex = 10;
             this.TestButton.Text = "Testuj";
             this.ToolTip.SetToolTip(this.TestButton, "Testuj sieć ze swoimi parametrami.");
             this.TestButton.UseVisualStyleBackColor = false;
             // 
-            // progressBar1
+            // progressBar
             // 
-            this.progressBar1.Location = new System.Drawing.Point(0, 503);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(872, 23);
-            this.progressBar1.TabIndex = 3;
+            this.progressBar.Location = new System.Drawing.Point(0, 503);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(872, 23);
+            this.progressBar.TabIndex = 3;
             // 
             // button1
             // 
@@ -508,7 +527,7 @@
             this.button1.Location = new System.Drawing.Point(237, 13);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(95, 44);
-            this.button1.TabIndex = 5;
+            this.button1.TabIndex = 13;
             this.button1.Text = "Podgląd";
             this.ToolTip.SetToolTip(this.button1, "Podejrzyj szczegóły iteracji\r\ndla zadanego bitu");
             this.button1.UseVisualStyleBackColor = false;
@@ -533,17 +552,6 @@
             this.label5.Text = "Iteracja:";
             this.ToolTip.SetToolTip(this.label5, "Wybrana iteracja\r\ntrenowania sieci");
             // 
-            // h_node0
-            // 
-            this.h_node0.Location = new System.Drawing.Point(324, 183);
-            this.h_node0.Name = "h_node0";
-            this.h_node0.Size = new System.Drawing.Size(46, 23);
-            this.h_node0.TabIndex = 6;
-            this.h_node0.Text = " ";
-            this.ToolTip.SetToolTip(this.h_node0, "000000");
-            this.h_node0.UseVisualStyleBackColor = true;
-            this.h_node0.Click += new System.EventHandler(this.h_node0_Click);
-            // 
             // groupBox5
             // 
             this.groupBox5.BackColor = System.Drawing.SystemColors.InactiveCaption;
@@ -565,14 +573,14 @@
             this.numericUpDown9.Location = new System.Drawing.Point(129, 37);
             this.numericUpDown9.Name = "numericUpDown9";
             this.numericUpDown9.Size = new System.Drawing.Size(97, 20);
-            this.numericUpDown9.TabIndex = 27;
+            this.numericUpDown9.TabIndex = 12;
             // 
             // numericUpDown8
             // 
             this.numericUpDown8.Location = new System.Drawing.Point(129, 13);
             this.numericUpDown8.Name = "numericUpDown8";
             this.numericUpDown8.Size = new System.Drawing.Size(97, 20);
-            this.numericUpDown8.TabIndex = 26;
+            this.numericUpDown8.TabIndex = 11;
             // 
             // toolStrip1
             // 
@@ -612,6 +620,181 @@
             this.AboutTS.Text = "O programie";
             this.AboutTS.Click += new System.EventHandler(this.AboutTS_Click);
             // 
+            // h_node0
+            // 
+            this.h_node0.Location = new System.Drawing.Point(318, 202);
+            this.h_node0.Name = "h_node0";
+            this.h_node0.Size = new System.Drawing.Size(28, 28);
+            this.h_node0.TabIndex = 6;
+            this.h_node0.Text = " ";
+            this.ToolTip.SetToolTip(this.h_node0, "000000");
+            this.h_node0.UseVisualStyleBackColor = true;
+            this.h_node0.Click += new System.EventHandler(this.h_node0_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(352, 202);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(28, 28);
+            this.button2.TabIndex = 7;
+            this.button2.Text = " ";
+            this.ToolTip.SetToolTip(this.button2, "000000");
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(420, 202);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(28, 28);
+            this.button3.TabIndex = 9;
+            this.button3.Text = " ";
+            this.ToolTip.SetToolTip(this.button3, "000000");
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(386, 202);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(28, 28);
+            this.button4.TabIndex = 8;
+            this.button4.Text = " ";
+            this.ToolTip.SetToolTip(this.button4, "000000");
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(556, 202);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(28, 28);
+            this.button5.TabIndex = 13;
+            this.button5.Text = " ";
+            this.ToolTip.SetToolTip(this.button5, "000000");
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(522, 202);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(28, 28);
+            this.button6.TabIndex = 12;
+            this.button6.Text = " ";
+            this.ToolTip.SetToolTip(this.button6, "000000");
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(488, 202);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(28, 28);
+            this.button7.TabIndex = 11;
+            this.button7.Text = " ";
+            this.ToolTip.SetToolTip(this.button7, "000000");
+            this.button7.UseVisualStyleBackColor = true;
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(454, 202);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(28, 28);
+            this.button8.TabIndex = 10;
+            this.button8.Text = " ";
+            this.ToolTip.SetToolTip(this.button8, "000000");
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(828, 202);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(28, 28);
+            this.button9.TabIndex = 21;
+            this.button9.Text = " ";
+            this.ToolTip.SetToolTip(this.button9, "000000");
+            this.button9.UseVisualStyleBackColor = true;
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(794, 202);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(28, 28);
+            this.button10.TabIndex = 20;
+            this.button10.Text = " ";
+            this.ToolTip.SetToolTip(this.button10, "000000");
+            this.button10.UseVisualStyleBackColor = true;
+            // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(760, 202);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(28, 28);
+            this.button11.TabIndex = 19;
+            this.button11.Text = " ";
+            this.ToolTip.SetToolTip(this.button11, "000000");
+            this.button11.UseVisualStyleBackColor = true;
+            // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(726, 202);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(28, 28);
+            this.button12.TabIndex = 18;
+            this.button12.Text = " ";
+            this.ToolTip.SetToolTip(this.button12, "000000");
+            this.button12.UseVisualStyleBackColor = true;
+            // 
+            // button13
+            // 
+            this.button13.Location = new System.Drawing.Point(692, 202);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(28, 28);
+            this.button13.TabIndex = 17;
+            this.button13.Text = " ";
+            this.ToolTip.SetToolTip(this.button13, "000000");
+            this.button13.UseVisualStyleBackColor = true;
+            // 
+            // button14
+            // 
+            this.button14.Location = new System.Drawing.Point(658, 202);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(28, 28);
+            this.button14.TabIndex = 16;
+            this.button14.Text = " ";
+            this.ToolTip.SetToolTip(this.button14, "000000");
+            this.button14.UseVisualStyleBackColor = true;
+            // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(624, 202);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(28, 28);
+            this.button15.TabIndex = 15;
+            this.button15.Text = " ";
+            this.ToolTip.SetToolTip(this.button15, "000000");
+            this.button15.UseVisualStyleBackColor = true;
+            // 
+            // button16
+            // 
+            this.button16.Location = new System.Drawing.Point(590, 202);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(28, 28);
+            this.button16.TabIndex = 14;
+            this.button16.Text = " ";
+            this.ToolTip.SetToolTip(this.button16, "000000");
+            this.button16.UseVisualStyleBackColor = true;
+            // 
+            // BStop
+            // 
+            this.BStop.BackColor = System.Drawing.Color.Salmon;
+            this.BStop.FlatAppearance.BorderColor = System.Drawing.Color.Maroon;
+            this.BStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BStop.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.BStop.Location = new System.Drawing.Point(736, 412);
+            this.BStop.Name = "BStop";
+            this.BStop.Size = new System.Drawing.Size(64, 64);
+            this.BStop.TabIndex = 22;
+            this.BStop.Text = "Stop!";
+            this.BStop.UseVisualStyleBackColor = false;
+            this.BStop.Click += new System.EventHandler(this.BStop_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -619,10 +802,26 @@
             this.BackgroundImage = global::LSTM_RNN.Properties.Resources.szata2;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(872, 541);
+            this.Controls.Add(this.BStop);
+            this.Controls.Add(this.button9);
+            this.Controls.Add(this.button10);
+            this.Controls.Add(this.button11);
+            this.Controls.Add(this.button12);
+            this.Controls.Add(this.button13);
+            this.Controls.Add(this.button14);
+            this.Controls.Add(this.button15);
+            this.Controls.Add(this.button16);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.button6);
+            this.Controls.Add(this.button7);
+            this.Controls.Add(this.button8);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.h_node0);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.progressBar);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -638,11 +837,11 @@
             this.groupBox1.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumRandom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumIterations)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumHiddenDim)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumAlpha)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumBinDim)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -667,12 +866,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button TestButton;
-        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.ToolTip ToolTip;
-        private System.Windows.Forms.Label WizLabel;
-        private System.Windows.Forms.Label TrueLabel;
-        private System.Windows.Forms.Label PredLabel;
-        private System.Windows.Forms.Label ErrorLabel;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
@@ -683,17 +877,17 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.NumericUpDown numericUpDown7;
-        private System.Windows.Forms.NumericUpDown numericUpDown5;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown NumIterations;
+        private System.Windows.Forms.NumericUpDown NumHiddenDim;
+        private System.Windows.Forms.NumericUpDown NumAlpha;
+        private System.Windows.Forms.NumericUpDown NumBinDim;
+        private System.Windows.Forms.NumericUpDown NumRandom;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.NumericUpDown numericUpDown6;
         private System.Windows.Forms.NumericUpDown numericUpDown4;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox CHBoxRandom;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.GroupBox groupBox5;
@@ -705,7 +899,28 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton KontaktTS;
         private System.Windows.Forms.ToolStripButton AboutTS;
+        public System.Windows.Forms.Label LWiz;
+        public System.Windows.Forms.Label LTrue;
+        public System.Windows.Forms.Label LPred;
+        public System.Windows.Forms.Label LError;
+        public System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Button h_node0;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Button BStop;
     }
 }
 
