@@ -8,6 +8,34 @@ using System.Threading.Tasks;
 
 namespace LSTM_RNN
 {
+    class Iteration
+    {
+        public string Error;
+        public string Pred;
+        public string True;
+        public string Wiz;
+        public Dictionary<int, BitInfo> bitListInfo;
+
+        //before, after - propagation
+        public double[,] synapse_0_before;
+        public double[,] synapse_0_after;
+        public double[,] synapse_1_before;
+        public double[,] synapse_1_after;
+        public double[,] synapse_h_before;
+        public double[,] synapse_h_after;
+        public Iteration()
+        {
+            bitListInfo = new Dictionary<int, BitInfo>();
+        }
+    }
+    class BitInfo
+    {
+        public double[,] inputLayer; //X
+        public double[,] hidden_layer;
+        public double[,] trueOutputLayer; //y
+        public double[,] pred_output_layer;
+    }
+
     class LSTM
     {
         NumpyCsharp numpy;
@@ -20,6 +48,8 @@ namespace LSTM_RNN
         int hidden_dim;
         const int output_dim = 1;
         int loop;
+
+        public Dictionary<int, Iteration> lstmHistory;
 
         public event Action<int> ProgressBarChanged;
         public event Action<string> LErrorChanged;
@@ -36,6 +66,7 @@ namespace LSTM_RNN
             this.alpha = alpha;
             this.hidden_dim = hiddenDim;
             this.loop = iterations;
+            lstmHistory = new Dictionary<int, Iteration>();
         }
         //with seed in numpy
         public LSTM(int binaryDim, double alpha, int hiddenDim, int iterations, int seed)
@@ -46,6 +77,7 @@ namespace LSTM_RNN
             this.alpha = alpha;
             this.hidden_dim = hiddenDim;
             this.loop = iterations;
+            lstmHistory = new Dictionary<int, Iteration>();
         }
 
         //compute sigmoid nonlinearity
@@ -250,9 +282,17 @@ namespace LSTM_RNN
             ArrayList layer_2_deltas, layer_1_values;
             double[,] X, y, layer_1, layer_2, layer_2_error, layer_2_delta, layer_1_delta;
 
+            Iteration oneIteration;
+
             //training logic
             for (int j = 0; j < loop; j++)
             {
+                oneIteration = new Iteration();
+                for (int i = 0; i < binary_dim; i++)
+                {
+                    oneIteration.bitListInfo.Add(i, new BitInfo());
+                }
+
                 //generate a simple addition problem (a + b = c)
                 a_int = numpy.Randint(largest_number / 2);       //int version
                 a = numberToBitArray(a_int, binary_dim);    //binary encoding
@@ -278,14 +318,18 @@ namespace LSTM_RNN
                 {
                     //generate input and output
                     X = new double[1, input_dim] { { a[binary_dim - position - 1], b[binary_dim - position - 1] } };
+                    oneIteration.bitListInfo[position].inputLayer = numpy.DeepCopy(X);
                     y = new double[1, output_dim] { { c[binary_dim - position - 1] } };
+                    oneIteration.bitListInfo[position].trueOutputLayer = numpy.DeepCopy(y);
                     y = numpy.Transpose(y);
 
                     //hidden layer (input ~+ prev_hidden)
                     layer_1 = sigmoid(addTables(numpy.Dot(X, synapse_0), numpy.Dot(oneToTwoDimensions((double[])layer_1_values[layer_1_values.Count - 1]), synapse_h)));
+                    oneIteration.bitListInfo[position].hidden_layer = numpy.DeepCopy(layer_1);
 
                     //output layer (new binary representation)
                     layer_2 = sigmoid(numpy.Dot(layer_1, synapse_1));
+                    oneIteration.bitListInfo[position].pred_output_layer = numpy.DeepCopy(layer_2);
 
                     //did we miss?... if so, by how much?
                     layer_2_error = subTables(y, layer_2);
@@ -322,34 +366,49 @@ namespace LSTM_RNN
                     future_layer_1_delta = getRow(layer_1_delta, 0);
                 }
 
+                oneIteration.synapse_0_before = numpy.DeepCopy(synapse_0);
+                oneIteration.synapse_1_before = numpy.DeepCopy(synapse_1);
+                oneIteration.synapse_h_before = numpy.DeepCopy(synapse_h);
+
                 synapse_0 = addTables(synapse_0, multiplyTable(synapse_0_update, alpha));
                 synapse_1 = addTables(synapse_1, multiplyTable(synapse_1_update, alpha));
                 synapse_h = addTables(synapse_h, multiplyTable(synapse_h_update, alpha));
+
+                oneIteration.synapse_0_after = numpy.DeepCopy(synapse_0);
+                oneIteration.synapse_1_after = numpy.DeepCopy(synapse_1);
+                oneIteration.synapse_h_after = numpy.DeepCopy(synapse_h);
 
                 synapse_0_update = multiplyTable(synapse_0_update, 0);
                 synapse_1_update = multiplyTable(synapse_1_update, 0);
                 synapse_h_update = multiplyTable(synapse_h_update, 0);
 
                 //print out progress
+                out_result = 0;
+                for (int i = 0; i < d.Length; i++)
+                {
+                    out_result += (int)d[d.Length - 1 - i] * (1 << i);
+                }
+
+                oneIteration.Error = overallError.ToString();
+                oneIteration.Pred = getStringFrom1dMatrix(d);
+                oneIteration.True = getStringFrom1dMatrix(c);
+                oneIteration.Wiz = a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString();
+                lstmHistory.Add(j, oneIteration);
+
                 if (j % 1000 == 0 || (j==loop-1))
                 {
                     //Console.WriteLine("Error: " + overallError.ToString());
-                    OnLErrorChanged(overallError.ToString());
+                    //OnLErrorChanged(overallError.ToString());
                     //Console.Write("Pred: "); numpy.print_1d_matrix(d); Console.WriteLine("");
-                    OnLPredChanged(getStringFrom1dMatrix(d));
+                    //OnLPredChanged(getStringFrom1dMatrix(d));
                     //Console.Write("True: "); numpy.print_1d_matrix(c); Console.WriteLine("");
-                    OnLTrueChanged(getStringFrom1dMatrix(c));
+                    //OnLTrueChanged(getStringFrom1dMatrix(c));
 
-                    out_result = 0;
-                    for (int i = 0; i < d.Length; i++)
-                    {
-                        out_result += (int)d[d.Length - 1 - i] * (1 << i);
-                    }
-                    OnLWizChanged(a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString());
+                    //OnLWizChanged(a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString());
                     //Console.WriteLine(a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString());
                     //Console.WriteLine("------------");
                 }
-                OnProgressBarChanged();
+                //OnProgressBarChanged();
             }
         }
     }
