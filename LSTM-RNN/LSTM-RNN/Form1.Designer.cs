@@ -246,7 +246,7 @@
             1,
             0,
             0,
-            131072});
+            65536});
             // 
             // NumBinDim
             // 
@@ -497,12 +497,14 @@
             this.TestButton.Text = "Testuj";
             this.ToolTip.SetToolTip(this.TestButton, "Testuj sieć ze swoimi parametrami.");
             this.TestButton.UseVisualStyleBackColor = false;
+            this.TestButton.Click += new System.EventHandler(this.TestButton_Click);
             // 
             // progressBar
             // 
             this.progressBar.Location = new System.Drawing.Point(0, 503);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(872, 23);
+            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar.TabIndex = 3;
             // 
             // BPreview
@@ -512,7 +514,7 @@
             this.BPreview.Name = "BPreview";
             this.BPreview.Size = new System.Drawing.Size(95, 44);
             this.BPreview.TabIndex = 13;
-            this.BPreview.Text = "Podgląd";
+            this.BPreview.Text = "Podgląd treningu";
             this.ToolTip.SetToolTip(this.BPreview, "Podejrzyj szczegóły iteracji\r\ndla zadanego bitu");
             this.BPreview.UseVisualStyleBackColor = false;
             this.BPreview.Click += new System.EventHandler(this.BPreview_Click);

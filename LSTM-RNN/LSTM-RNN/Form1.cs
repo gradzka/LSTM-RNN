@@ -144,10 +144,15 @@ namespace LSTM_RNN
                 this.Controls.Remove(item.Value);
             }
             buttonDict.Clear();
-            
+
+            GBOptions.Enabled = false;
+            GBTest.Enabled = false;
             progressBar.Value = 0;
             NumOptIterations.Maximum = NumIterations.Value - 1;
             NumOptBitNo.Maximum = NumBinDim.Value - 1;
+            NumL1.Maximum = 1 << Decimal.ToInt32(NumBinDim.Value) - 1;
+            NumL2.Maximum = 1 << Decimal.ToInt32(NumBinDim.Value) - 1;
+
 
             int binaryDim = Decimal.ToInt32(NumBinDim.Value);
             double alpha = System.Convert.ToDouble(NumAlpha.Value);
@@ -215,7 +220,8 @@ namespace LSTM_RNN
 
             Button button = buttonDict[(sender as Button).Name];
             ContextMenuStrip PopupMenu = new ContextMenuStrip();
-            ToolStripMenuItem item, submenu1, submenu2;
+            ToolStripMenuItem submenu1;
+            ToolStripMenuItem submenu2;
 
             submenu1 = new ToolStripMenuItem();
             submenu1.Text = "Przed propag. wst.";
@@ -283,6 +289,11 @@ namespace LSTM_RNN
             LPred.Text = lstm.lstmHistory[iteration].Pred.ToString();
             LTrue.Text = lstm.lstmHistory[iteration].True.ToString();
             LWiz.Text = lstm.lstmHistory[iteration].Wiz.ToString();           
+        }
+
+        private void TestButton_Click(object sender, EventArgs e)
+        {
+            lstm.testNetwork(Int32.Parse(NumL1.Text), Int32.Parse(NumL2.Text));
         }
     }
 }

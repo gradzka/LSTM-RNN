@@ -32,7 +32,6 @@ namespace LSTM_RNN
     {
         public double[,] inputLayer; //X
         public double[,] hidden_layer;
-        public double[,] trueOutputLayer; //y
         public double[,] pred_output_layer;
     }
 
@@ -290,7 +289,6 @@ namespace LSTM_RNN
                     X = new double[1, input_dim] { { a[binary_dim - position - 1], b[binary_dim - position - 1] } };
                     oneIteration.bitListInfo[position].inputLayer = numpy.DeepCopy(X);
                     y = new double[1, output_dim] { { c[binary_dim - position - 1] } };
-                    oneIteration.bitListInfo[position].trueOutputLayer = numpy.DeepCopy(y);
                     y = numpy.Transpose(y);
 
                     //hidden layer (input ~+ prev_hidden)
