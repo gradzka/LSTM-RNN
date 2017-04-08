@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Forms;
 
 namespace LSTM_RNN
 {
@@ -51,12 +51,6 @@ namespace LSTM_RNN
 
         public Dictionary<int, Iteration> lstmHistory;
 
-        public event Action<int> ProgressBarChanged;
-        public event Action<string> LErrorChanged;
-        public event Action<string> LPredChanged;
-        public event Action<string> LTrueChanged;
-        public event Action<string> LWizChanged;
-
         //without seed in numpy
         public LSTM(int binaryDim, double alpha, int hiddenDim, int iterations)
         {
@@ -78,6 +72,11 @@ namespace LSTM_RNN
             this.hidden_dim = hiddenDim;
             this.loop = iterations;
             lstmHistory = new Dictionary<int, Iteration>();
+        }
+
+        public int getHidDim()
+        {
+            return hidden_dim;
         }
 
         //compute sigmoid nonlinearity
@@ -219,54 +218,23 @@ namespace LSTM_RNN
             return Matrix1dString;
         }
 
-        private void OnProgressBarChanged()
-        {
-            var action = ProgressBarChanged;
-            if (action != null)
-            {
-                action(1);
-            }
-        }
-        private void OnLErrorChanged(string value)
-        {
-            var action = LErrorChanged;
-            if (action != null)
-            {
-                action(value);
-            }
-        }
-        private void OnLPredChanged(string value)
-        {
-            var action = LPredChanged;
-            if (action != null)
-            {
-                action(value);
-            }
-        }
-        private void OnLTrueChanged(string value)
-        {
-            var action = LTrueChanged;
-            if (action != null)
-            {
-                action(value);
-            }
-        }
-        private void OnLWizChanged(string value)
-        {
-            var action = LWizChanged;
-            if (action != null)
-            {
-                action(value);
-            }
-        }
+        internal delegate void UpdateProgressBarDelegate();
+        internal event UpdateProgressBarDelegate UpdateProgressBar;
 
-        public void trainNetwork()
-        {
-            MainWindow mw = new MainWindow();
-            mw.progressBar.Value = 0;
-            mw.progressBar.Maximum = loop;
-            
+        internal delegate void UpdateLErrorDelegate(string text);
+        internal event UpdateLErrorDelegate UpdateLError;
 
+        internal delegate void UpdateLPredDelegate(string text);
+        internal event UpdateLPredDelegate UpdateLPred;
+
+        internal delegate void UpdateLTrueDelegate(string text);
+        internal event UpdateLTrueDelegate UpdateLTrue;
+
+        internal delegate void UpdateLWizDelegate(string text);
+        internal event UpdateLWizDelegate UpdateLWiz;
+
+        internal void trainNetwork()
+        {          
             //initialize neural network weights
             double[,] synapse_0 = numpy.Random2D(input_dim, hidden_dim);
             double[,] synapse_1 = numpy.Random2D(hidden_dim, output_dim);
@@ -398,17 +366,21 @@ namespace LSTM_RNN
                 if (j % 1000 == 0 || (j==loop-1))
                 {
                     //Console.WriteLine("Error: " + overallError.ToString());
-                    //OnLErrorChanged(overallError.ToString());
+                    UpdateLError(overallError.ToString());
                     //Console.Write("Pred: "); numpy.print_1d_matrix(d); Console.WriteLine("");
-                    //OnLPredChanged(getStringFrom1dMatrix(d));
+                    UpdateLPred(getStringFrom1dMatrix(d));
                     //Console.Write("True: "); numpy.print_1d_matrix(c); Console.WriteLine("");
-                    //OnLTrueChanged(getStringFrom1dMatrix(c));
+                    UpdateLTrue(getStringFrom1dMatrix(c));
 
-                    //OnLWizChanged(a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString());
+                    UpdateLWiz(a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString());
                     //Console.WriteLine(a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString());
                     //Console.WriteLine("------------");
                 }
+               
+
                 //OnProgressBarChanged();
+                UpdateProgressBar();
+                Application.DoEvents();
             }
         }
     }

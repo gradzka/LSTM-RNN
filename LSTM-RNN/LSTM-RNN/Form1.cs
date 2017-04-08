@@ -14,35 +14,19 @@ namespace LSTM_RNN
     public partial class MainWindow : Form
     {
         Thread Trainthread = null;
+        LSTM lstm;
+        //List<Button> buttonList = new List<Button>();
+        Dictionary<string, Button> buttonDict=new Dictionary<string,Button>();
+
         public MainWindow()
         {
-            InitializeComponent();           
-        }
-        public void UpdateProgressBar(int progress)
-        {
-            progressBar.Value += progress;
-        }
-        public void UpdateLError(string text)
-        {
-            LError.Text = text;
-            LError.Refresh();
-        }
-        public void UpdateLPred(string text)
-        {
-            LPred.Text = text;
-            LPred.Refresh();
-        }
-        public void UpdateLTrue(string text)
-        {
-            LTrue.Text = text;
-            LTrue.Refresh();
-        }
-        public void UpdateLWiz(string text)
-        {
-            LWiz.Text = text;
-            LWiz.Refresh();
+            InitializeComponent();
         }
 
+        public void updateProgressBar()
+        {
+            progressBar.Value += 1;
+        }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
@@ -66,20 +50,105 @@ namespace LSTM_RNN
                             "O programie");
         }
 
-        private void h_node0_Click(object sender, EventArgs e)
+        private void UpdateProgressBar()
         {
-            //przy tworzeniu przyciskow
-            ContextMenuStrip PopupMenu = new ContextMenuStrip();
-            PopupMenu.Items.Add("000");
-            PopupMenu.Items.Add("000");
-
-            this.ContextMenuStrip = PopupMenu;
+            progressBar.Value += 1;
         }
 
-        private void TrainingButton_Click(object sender, EventArgs e)
+        private void UpdateLError(string text)
         {
-            LSTM lstm;
+            LError.Text = text;
+        }
+        private void UpdateLPred(string text)
+        {
+            LPred.Text = text;
+        }
+        private void UpdateLTrue(string text)
+        {
+            LTrue.Text = text;
+        }
+        private void UpdateLWiz(string text)
+        {
+            LWiz.Text = text;
+        }
+        void HiddenLayer()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                //buttonList.Add(new Button());
+                if (i==0)
+                {
+                    buttonDict.Add("inputNode1", new Button());
+                    buttonDict.Last().Value.Location = new System.Drawing.Point(555, 277);
+                    buttonDict.Last().Value.Name = "inputNode1";
+                    buttonDict.Last().Value.BackColor = System.Drawing.Color.DarkSeaGreen;
+                }
+                else if (i==1)
+                {
+                    buttonDict.Add("inputNode2", new Button());
+                    buttonDict.Last().Value.Location = new System.Drawing.Point(589, 277);
+                    buttonDict.Last().Value.Name = "inputNode2";
+                    buttonDict.Last().Value.BackColor = System.Drawing.Color.DarkSeaGreen;
+                }
+                else if (i==2)
+                {
+                    buttonDict.Add("outputNode", new Button());
+                    buttonDict.Last().Value.Location = new System.Drawing.Point(572, 67);
+                    buttonDict.Last().Value.Name = "outputNode";
+                    buttonDict.Last().Value.BackColor = System.Drawing.Color.Silver;
+                }
+
+                buttonDict.Last().Value.Size = new System.Drawing.Size(28, 28);
+                buttonDict.Last().Value.TabIndex = 6;
+                buttonDict.Last().Value.Text = " ";
+                //ToolTip.SetToolTip(buttonDict.Last().Value, "000000");
+                buttonDict.Last().Value.UseVisualStyleBackColor = false;
+                buttonDict.Last().Value.Click += new System.EventHandler(node_Click);
+                this.Controls.Add(buttonDict.Last().Value);
+            }
+           
+            int HidDim = lstm.getHidDim();
+            int halfWay = HidDim / 2 - 1;
+            int startPosition = 0;
+
+            if (HidDim % 2 == 0) //even
+            {
+                startPosition = 556 - (halfWay * 34);
+            }
+            else //odd
+            {
+                startPosition = 573 - ((halfWay + 1) * 34);
+            }
+            string buttonName = string.Empty;
+            for (int i = 0; i < HidDim; i++)
+            {
+                buttonName = "hiddenNode" + i;
+                buttonDict.Add(buttonName,new Button());
+                buttonDict.Last().Value.Location = new System.Drawing.Point(startPosition + i * 34, 166);
+                buttonDict.Last().Value.Name = buttonName;
+                buttonDict.Last().Value.Size = new System.Drawing.Size(28, 28);
+                buttonDict.Last().Value.TabIndex = 6;
+                buttonDict.Last().Value.Text = i.ToString();
+                this.TrainingButton.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+                //ToolTip.SetToolTip(buttonDict.Last().Value, "000000");
+                buttonDict.Last().Value.BackColor = System.Drawing.Color.Peru;
+                buttonDict.Last().Value.UseVisualStyleBackColor = false;
+                buttonDict.Last().Value.Click += new System.EventHandler(node_Click);
+                this.Controls.Add(buttonDict.Last().Value);
+            }
+        }
+        private void TrainingButton_Click(object sender, EventArgs e)
+        {        
+            foreach (var item in buttonDict)
+            {
+                this.Controls.Remove(item.Value);
+            }
+            buttonDict.Clear();
+            
             progressBar.Value = 0;
+            NumOptIterations.Maximum = NumIterations.Value - 1;
+            NumOptBitNo.Maximum = NumBinDim.Value - 1;
+
             int binaryDim = Decimal.ToInt32(NumBinDim.Value);
             double alpha = System.Convert.ToDouble(NumAlpha.Value);
             int hiddenDim = Decimal.ToInt32(NumHiddenDim.Value);
@@ -102,15 +171,21 @@ namespace LSTM_RNN
             LTrue.Text = "";
             LWiz.Text = "";
 
-            lstm.ProgressBarChanged += UpdateProgressBar;
-            lstm.LErrorChanged += UpdateLError;
-            lstm.LPredChanged += UpdateLPred;
-            lstm.LTrueChanged += UpdateLTrue;
-            lstm.LWizChanged += UpdateLWiz;
+            //Trainthread = new Thread(lstm.trainNetwork);
+            //Trainthread.Start();
+            lstm.UpdateProgressBar += UpdateProgressBar;
+            lstm.UpdateLError += UpdateLError;
+            lstm.UpdateLPred += UpdateLPred;
+            lstm.UpdateLTrue += UpdateLTrue;
+            lstm.UpdateLWiz += UpdateLWiz;
 
-            Trainthread = new Thread(lstm.trainNetwork);
-            Trainthread.Start();
-            //lstm.trainNetwork();
+            //Controls
+            HiddenLayer();
+
+            lstm.trainNetwork();
+            GBOptions.Enabled = true;
+            GBTest.Enabled = true;
+
         }
 
         private void CHBoxRandom_CheckedChanged(object sender, EventArgs e)
@@ -131,7 +206,83 @@ namespace LSTM_RNN
             {
                 Trainthread.Abort();
             }
+        }
 
+        private void node_Click(object sender, EventArgs e)
+        {
+            int iteration = Decimal.ToInt32(NumOptIterations.Value);
+            int bitNo = Decimal.ToInt32(NumOptBitNo.Value);
+
+            Button button = buttonDict[(sender as Button).Name];
+            ContextMenuStrip PopupMenu = new ContextMenuStrip();
+            ToolStripMenuItem item, submenu1, submenu2;
+
+            submenu1 = new ToolStripMenuItem();
+            submenu1.Text = "Przed propag. wst.";
+
+            submenu2 = new ToolStripMenuItem();
+            submenu2.Text = "Po propag. wst.";
+
+            for (int i = 0; i < lstm.getHidDim(); i++)
+            {
+                if (button.Name == "outputNode")
+                {
+                    //item = new ToolStripMenuItem();
+                    //item.Text = lstm.lstmHistory[iteration].synapse_1_before[i, 0].ToString();
+                    submenu1.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse_1_before[i, 0].ToString()));
+                    submenu2.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse_1_after[i, 0].ToString()));
+
+                    //PopupMenu.Items.Add(lstm.lstmHistory[iteration].synapse_1_before[i, 0].ToString());
+                }
+                else if (button.Name == "inputNode1")
+                {
+                    submenu1.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse_0_before[0, i].ToString()));
+                    submenu2.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse_0_after[0, i].ToString()));
+
+                    //PopupMenu.Items.Add(lstm.lstmHistory[iteration].synapse_0_before[0, i].ToString());
+                }
+                else if (button.Name == "inputNode2")
+                {
+                    submenu1.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse_0_before[1, i].ToString()));
+                    submenu2.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse_0_after[1, i].ToString()));
+
+                    //PopupMenu.Items.Add(lstm.lstmHistory[iteration].synapse_0_before[1, i].ToString());
+                }
+                else if (button.Name.Contains("hiddenNode"))
+                {
+                    submenu1.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse_h_before[Int32.Parse(button.Name.Remove(0, 10)), i].ToString()));
+                    submenu2.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse_h_after[Int32.Parse(button.Name.Remove(0, 10)), i].ToString()));
+                    //PopupMenu.Items.Add(lstm.lstmHistory[iteration].synapse_h_before[Int32.Parse(button.Name.Remove(0,10)), i].ToString());
+                }
+            }
+            PopupMenu.Items.Add(submenu1);
+            PopupMenu.Items.Add(submenu2);
+            PopupMenu.Show(button, new Point(0, button.Height));
+            //this.ContextMenuStrip = PopupMenu;
+        }
+        private void BPreview_Click(object sender, EventArgs e)
+        {
+            int iteration = Decimal.ToInt32(NumOptIterations.Value);
+            int bitNo = Decimal.ToInt32(NumOptBitNo.Value);
+
+            //Nodes values
+            //output, inputs
+            ToolTip.SetToolTip(buttonDict["outputNode"], lstm.lstmHistory[iteration].bitListInfo[bitNo].pred_output_layer[0, 0].ToString());
+            ToolTip.SetToolTip(buttonDict["inputNode1"], lstm.lstmHistory[iteration].bitListInfo[bitNo].inputLayer[0, 0].ToString());
+            ToolTip.SetToolTip(buttonDict["inputNode2"], lstm.lstmHistory[iteration].bitListInfo[bitNo].inputLayer[0, 1].ToString());
+
+            //hiddens
+            string buttonName = string.Empty;
+            for (int i=0;i<buttonDict.Count-3;i++)
+            {
+                ToolTip.SetToolTip(buttonDict["hiddenNode" + i.ToString()], lstm.lstmHistory[iteration].bitListInfo[bitNo].hidden_layer[0, i].ToString());
+            }
+
+            //Console
+            LError.Text = lstm.lstmHistory[iteration].Error.ToString();
+            LPred.Text = lstm.lstmHistory[iteration].Pred.ToString();
+            LTrue.Text = lstm.lstmHistory[iteration].True.ToString();
+            LWiz.Text = lstm.lstmHistory[iteration].Wiz.ToString();           
         }
     }
 }
