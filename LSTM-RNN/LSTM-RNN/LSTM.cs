@@ -48,7 +48,9 @@ namespace LSTM_RNN
         int hidden_dim;
         const int output_dim = 1;
         int loop;
-
+        double[,] synapse_0;
+        double[,] synapse_1;
+        double[,] synapse_h;
         public Dictionary<int, Iteration> lstmHistory;
 
         //without seed in numpy
@@ -236,9 +238,9 @@ namespace LSTM_RNN
         internal void trainNetwork()
         {          
             //initialize neural network weights
-            double[,] synapse_0 = numpy.Random2D(input_dim, hidden_dim);
-            double[,] synapse_1 = numpy.Random2D(hidden_dim, output_dim);
-            double[,] synapse_h = numpy.Random2D(hidden_dim, hidden_dim);
+            synapse_0 = numpy.Random2D(input_dim, hidden_dim);
+            synapse_1 = numpy.Random2D(hidden_dim, output_dim);
+            synapse_h = numpy.Random2D(hidden_dim, hidden_dim);
 
             double[,] synapse_0_update = numpy.Zeros_like(synapse_0);
             double[,] synapse_1_update = numpy.Zeros_like(synapse_1);
@@ -383,5 +385,76 @@ namespace LSTM_RNN
                 Application.DoEvents();
             }
         }
+
+        internal void testNetwork(int a_int, int b_int)
+        {
+            int c_int, out_result;
+            double[] a, b, c, d;
+            double overallError;
+            ArrayList layer_2_deltas, layer_1_values;
+            double[,] X, y, layer_1, layer_2, layer_2_error;
+
+            a = numberToBitArray(a_int, binary_dim);    //binary encoding
+            b = numberToBitArray(b_int, binary_dim);    //binary encoding
+            //true answer
+            c_int = a_int + b_int;
+            c = numberToBitArray(c_int, binary_dim);
+
+            //where we'll store our best guess (binary encoded)
+            d = numpy.Zeros_like(c);
+
+            overallError = 0;
+
+            layer_2_deltas = new ArrayList();
+            layer_1_values = new ArrayList();
+            layer_1_values.Add(numpy.Zeros(hidden_dim));
+
+            //moving along the positions in the binary encoding
+            for (int position = 0; position < binary_dim; position++)
+            {
+                //generate input and output
+                X = new double[1, input_dim] { { a[binary_dim - position - 1], b[binary_dim - position - 1] } };
+                y = new double[1, output_dim] { { c[binary_dim - position - 1] } };
+                y = numpy.Transpose(y);
+
+                //hidden layer (input ~+ prev_hidden)
+                layer_1 = sigmoid(addTables(numpy.Dot(X, synapse_0), numpy.Dot(oneToTwoDimensions((double[])layer_1_values[layer_1_values.Count - 1]), synapse_h)));
+
+                //output layer (new binary representation)
+                layer_2 = sigmoid(numpy.Dot(layer_1, synapse_1));
+
+                //did we miss?... if so, by how much?
+                layer_2_error = subTables(y, layer_2);
+                layer_2_deltas.Add(numpy.Dot((layer_2_error), sigmoid_output_to_derivative(layer_2)));
+                overallError += numpy.Abs(getRow(layer_2_error, 0))[0];
+
+                //decode estimate so we can print it out
+                d[binary_dim - position - 1] = numpy.Round(layer_2[0, 0]);
+
+                //store hidden layer so we can use it in the next timestep
+                layer_1_values.Add(getRow(numpy.DeepCopy(layer_1), 0));
+            }
+
+            //print out progress
+            out_result = 0;
+            for (int i = 0; i < d.Length; i++)
+            {
+                out_result += (int)d[d.Length - 1 - i] * (1 << i);
+            }
+
+            //Console.WriteLine("Error: " + overallError.ToString());
+            UpdateLError(overallError.ToString());
+            //Console.Write("Pred: "); numpy.print_1d_matrix(d); Console.WriteLine("");
+            UpdateLPred(getStringFrom1dMatrix(d));
+            //Console.Write("True: "); numpy.print_1d_matrix(c); Console.WriteLine("");
+            UpdateLTrue(getStringFrom1dMatrix(c));
+
+            UpdateLWiz(a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString());
+            //Console.WriteLine(a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString());
+            //Console.WriteLine("------------");
+
+            Application.DoEvents();
+        }
+
     }
 }
