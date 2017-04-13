@@ -338,13 +338,23 @@ namespace LSTM_RNN
                 oneIteration.synapse_1_before = numpy.DeepCopy(synapse_1);
                 oneIteration.synapse_h_before = numpy.DeepCopy(synapse_h);
 
+                if (j>0 && j<loop)
+                {
+                    lstmHistory[j - 1].synapse_0_after = oneIteration.synapse_0_before;
+                    lstmHistory[j - 1].synapse_1_after = oneIteration.synapse_1_before;
+                    lstmHistory[j - 1].synapse_h_after = oneIteration.synapse_h_before;
+                }
+
                 synapse_0 = addTables(synapse_0, multiplyTable(synapse_0_update, alpha));
                 synapse_1 = addTables(synapse_1, multiplyTable(synapse_1_update, alpha));
                 synapse_h = addTables(synapse_h, multiplyTable(synapse_h_update, alpha));
 
-                oneIteration.synapse_0_after = numpy.DeepCopy(synapse_0);
-                oneIteration.synapse_1_after = numpy.DeepCopy(synapse_1);
-                oneIteration.synapse_h_after = numpy.DeepCopy(synapse_h);
+                if (j == loop - 1)
+                {
+                    oneIteration.synapse_0_after = numpy.DeepCopy(synapse_0);
+                    oneIteration.synapse_1_after = numpy.DeepCopy(synapse_1);
+                    oneIteration.synapse_h_after = numpy.DeepCopy(synapse_h);
+                }
 
                 synapse_0_update = multiplyTable(synapse_0_update, 0);
                 synapse_1_update = multiplyTable(synapse_1_update, 0);
