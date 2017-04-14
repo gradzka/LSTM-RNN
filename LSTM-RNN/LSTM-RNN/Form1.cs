@@ -234,31 +234,31 @@ namespace LSTM_RNN
                 if (button.Name == "outputNode")
                 {
                     //item = new ToolStripMenuItem();
-                    //item.Text = lstm.lstmHistory[iteration].synapse_1_before[i, 0].ToString();
-                    submenu1.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse_1_before[i, 0].ToString()));
-                    submenu2.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse_1_after[i, 0].ToString()));
+                    //item.Text = lstm.lstmHistory[iteration].synapse1Before[i, 0].ToString();
+                    submenu1.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse1Before[i, 0].ToString()));
+                    submenu2.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse1After[i, 0].ToString()));
 
-                    //PopupMenu.Items.Add(lstm.lstmHistory[iteration].synapse_1_before[i, 0].ToString());
+                    //PopupMenu.Items.Add(lstm.lstmHistory[iteration].synapse1Before[i, 0].ToString());
                 }
                 else if (button.Name == "inputNode1")
                 {
-                    submenu1.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse_0_before[0, i].ToString()));
-                    submenu2.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse_0_after[0, i].ToString()));
+                    submenu1.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse0Before[0, i].ToString()));
+                    submenu2.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse0After[0, i].ToString()));
 
-                    //PopupMenu.Items.Add(lstm.lstmHistory[iteration].synapse_0_before[0, i].ToString());
+                    //PopupMenu.Items.Add(lstm.lstmHistory[iteration].synapse0Before[0, i].ToString());
                 }
                 else if (button.Name == "inputNode2")
                 {
-                    submenu1.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse_0_before[1, i].ToString()));
-                    submenu2.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse_0_after[1, i].ToString()));
+                    submenu1.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse0Before[1, i].ToString()));
+                    submenu2.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse0After[1, i].ToString()));
 
-                    //PopupMenu.Items.Add(lstm.lstmHistory[iteration].synapse_0_before[1, i].ToString());
+                    //PopupMenu.Items.Add(lstm.lstmHistory[iteration].synapse0Before[1, i].ToString());
                 }
                 else if (button.Name.Contains("hiddenNode"))
                 {
-                    submenu1.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse_h_before[Int32.Parse(button.Name.Remove(0, 10)), i].ToString()));
-                    submenu2.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapse_h_after[Int32.Parse(button.Name.Remove(0, 10)), i].ToString()));
-                    //PopupMenu.Items.Add(lstm.lstmHistory[iteration].synapse_h_before[Int32.Parse(button.Name.Remove(0,10)), i].ToString());
+                    submenu1.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapseHBefore[Int32.Parse(button.Name.Remove(0, 10)), i].ToString()));
+                    submenu2.DropDownItems.Add(new ToolStripMenuItem(lstm.lstmHistory[iteration].synapseHAfter[Int32.Parse(button.Name.Remove(0, 10)), i].ToString()));
+                    //PopupMenu.Items.Add(lstm.lstmHistory[iteration].synapseHBefore[Int32.Parse(button.Name.Remove(0,10)), i].ToString());
                 }
             }
             PopupMenu.Items.Add(submenu1);
@@ -273,7 +273,7 @@ namespace LSTM_RNN
 
             //Nodes values
             //output, inputs
-            ToolTip.SetToolTip(buttonDict["outputNode"], lstm.lstmHistory[iteration].bitListInfo[bitNo].pred_output_layer[0, 0].ToString());
+            ToolTip.SetToolTip(buttonDict["outputNode"], lstm.lstmHistory[iteration].bitListInfo[bitNo].predOutputLayer[0, 0].ToString());
             ToolTip.SetToolTip(buttonDict["inputNode1"], lstm.lstmHistory[iteration].bitListInfo[bitNo].inputLayer[0, 0].ToString());
             ToolTip.SetToolTip(buttonDict["inputNode2"], lstm.lstmHistory[iteration].bitListInfo[bitNo].inputLayer[0, 1].ToString());
 
@@ -281,7 +281,7 @@ namespace LSTM_RNN
             string buttonName = string.Empty;
             for (int i=0;i<buttonDict.Count-3;i++)
             {
-                ToolTip.SetToolTip(buttonDict["hiddenNode" + i.ToString()], lstm.lstmHistory[iteration].bitListInfo[bitNo].hidden_layer[0, i].ToString());
+                ToolTip.SetToolTip(buttonDict["hiddenNode" + i.ToString()], lstm.lstmHistory[iteration].bitListInfo[bitNo].hiddenLayer[0, i].ToString());
             }
 
             //Console

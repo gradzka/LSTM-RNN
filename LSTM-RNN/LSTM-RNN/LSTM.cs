@@ -17,12 +17,12 @@ namespace LSTM_RNN
         public Dictionary<int, BitInfo> bitListInfo;
 
         //before, after - propagation
-        public double[,] synapse_0_before;
-        public double[,] synapse_0_after;
-        public double[,] synapse_1_before;
-        public double[,] synapse_1_after;
-        public double[,] synapse_h_before;
-        public double[,] synapse_h_after;
+        public double[,] synapse0Before;
+        public double[,] synapse0After;
+        public double[,] synapse1Before;
+        public double[,] synapse1After;
+        public double[,] synapseHBefore;
+        public double[,] synapseHAfter;
         public Iteration()
         {
             bitListInfo = new Dictionary<int, BitInfo>();
@@ -31,35 +31,35 @@ namespace LSTM_RNN
     class BitInfo
     {
         public double[,] inputLayer; //X
-        public double[,] hidden_layer;
-        public double[,] pred_output_layer;
+        public double[,] hiddenLayer;
+        public double[,] predOutputLayer;
     }
 
     class LSTM
     {
         NumpyCsharp numpy;
-        int binary_dim;
-        int largest_number;
+        int binaryDim;
+        int largestNumber;
 
         //input variables
         double alpha;
-        const int input_dim = 2;
-        int hidden_dim;
-        const int output_dim = 1;
+        const int inputDim = 2;
+        int hiddenDim;
+        const int outputDim = 1;
         int loop;
-        double[,] synapse_0;
-        double[,] synapse_1;
-        double[,] synapse_h;
+        double[,] synapse0;
+        double[,] synapse1;
+        double[,] synapseH;
         public Dictionary<int, Iteration> lstmHistory;
 
         //without seed in numpy
         public LSTM(int binaryDim, double alpha, int hiddenDim, int iterations)
         {
             numpy = new NumpyCsharp();
-            this.binary_dim = binaryDim;
-            largest_number = (1 << binaryDim);
+            this.binaryDim = binaryDim;
+            largestNumber = (1 << binaryDim);
             this.alpha = alpha;
-            this.hidden_dim = hiddenDim;
+            this.hiddenDim = hiddenDim;
             this.loop = iterations;
             lstmHistory = new Dictionary<int, Iteration>();
         }
@@ -67,17 +67,17 @@ namespace LSTM_RNN
         public LSTM(int binaryDim, double alpha, int hiddenDim, int iterations, int seed)
         {
             numpy = new NumpyCsharp(seed);
-            this.binary_dim = binaryDim;
-            largest_number = (1 << binaryDim);
+            this.binaryDim = binaryDim;
+            largestNumber = (1 << binaryDim);
             this.alpha = alpha;
-            this.hidden_dim = hiddenDim;
+            this.hiddenDim = hiddenDim;
             this.loop = iterations;
             lstmHistory = new Dictionary<int, Iteration>();
         }
 
         public int getHidDim()
         {
-            return hidden_dim;
+            return hiddenDim;
         }
 
         //compute sigmoid nonlinearity
@@ -104,7 +104,7 @@ namespace LSTM_RNN
         }
 
         //convert output of sigmoid function to its derivative
-        double[,] sigmoid_output_to_derivative(double[,] x)
+        double[,] sigmoidOutputToDerivative(double[,] x)
         {
             double[,] output = new double[x.GetLength(0), x.GetLength(1)];
             for (int i = 0; i < x.GetLength(0); i++)
@@ -117,11 +117,11 @@ namespace LSTM_RNN
             return output;
         }
 
-        double[] numberToBitArray(int x, int binary_dim)
+        double[] numberToBitArray(int x, int binaryDim)
         {
             string s = Convert.ToString(x, 2); //Convert to binary in a string
 
-            double[] bits = s.PadLeft(binary_dim, '0') // Add 0's from left
+            double[] bits = s.PadLeft(binaryDim, '0') // Add 0's from left
                          .Select(c => double.Parse(c.ToString())) // convert each char to int
                          .ToArray(); // Convert IEnumerable from select to Array
 
@@ -237,19 +237,19 @@ namespace LSTM_RNN
         internal void trainNetwork()
         {          
             //initialize neural network weights
-            synapse_0 = numpy.Random2D(input_dim, hidden_dim);
-            synapse_1 = numpy.Random2D(hidden_dim, output_dim);
-            synapse_h = numpy.Random2D(hidden_dim, hidden_dim);
+            synapse0 = numpy.Random2D(inputDim, hiddenDim);
+            synapse1 = numpy.Random2D(hiddenDim, outputDim);
+            synapseH = numpy.Random2D(hiddenDim, hiddenDim);
 
-            double[,] synapse_0_update = numpy.Zeros_like(synapse_0);
-            double[,] synapse_1_update = numpy.Zeros_like(synapse_1);
-            double[,] synapse_h_update = numpy.Zeros_like(synapse_h);
+            double[,] synapse0Update = numpy.ZerosLike(synapse0);
+            double[,] synapse1Update = numpy.ZerosLike(synapse1);
+            double[,] synapseHUpdate = numpy.ZerosLike(synapseH);
 
-            int a_int, b_int, c_int, out_result;
-            double[] a, b, c, d, prev_layer_1;
+            int aInt, bInt, cInt, outResult;
+            double[] a, b, c, d, prevLayer1;
             double overallError;
-            ArrayList layer_2_deltas, layer_1_values;
-            double[,] X, y, layer_1, layer_2, layer_2_error, layer_2_delta, layer_1_delta;
+            ArrayList layer2Deltas, layer1Values;
+            double[,] X, y, layer1, layer2, layer2Error, layer2Delta, layer1Delta;
 
             Iteration oneIteration;
 
@@ -257,134 +257,128 @@ namespace LSTM_RNN
             for (int j = 0; j < loop; j++)
             {
                 oneIteration = new Iteration();
-                for (int i = 0; i < binary_dim; i++)
+                for (int i = 0; i < binaryDim; i++)
                 {
                     oneIteration.bitListInfo.Add(i, new BitInfo());
                 }
 
                 //generate a simple addition problem (a + b = c)
-                a_int = numpy.Randint(largest_number / 2);       //int version
-                a = numberToBitArray(a_int, binary_dim);    //binary encoding
+                aInt = numpy.Randint(largestNumber / 2);       //int version
+                a = numberToBitArray(aInt, binaryDim);    //binary encoding
 
-                b_int = numpy.Randint(largest_number / 2);       //int version
-                b = numberToBitArray(b_int, binary_dim);    //binary encoding
+                bInt = numpy.Randint(largestNumber / 2);       //int version
+                b = numberToBitArray(bInt, binaryDim);    //binary encoding
 
                 //true answer
-                c_int = a_int + b_int;
-                c = numberToBitArray(c_int, binary_dim);
+                cInt = aInt + bInt;
+                c = numberToBitArray(cInt, binaryDim);
 
                 //where we'll store our best guess (binary encoded)
-                d = numpy.Zeros_like(c);
+                d = numpy.ZerosLike(c);
 
                 overallError = 0;
 
-                layer_2_deltas = new ArrayList();
-                layer_1_values = new ArrayList();
-                layer_1_values.Add(numpy.Zeros(hidden_dim));
+                layer2Deltas = new ArrayList();
+                layer1Values = new ArrayList();
+                layer1Values.Add(numpy.Zeros(hiddenDim));
 
                 //moving along the positions in the binary encoding
-                for (int position = 0; position < binary_dim; position++)
+                for (int position = 0; position < binaryDim; position++)
                 {
                     //generate input and output
-                    X = new double[1, input_dim] { { a[binary_dim - position - 1], b[binary_dim - position - 1] } };
+                    X = new double[1, inputDim] { { a[binaryDim - position - 1], b[binaryDim - position - 1] } };
                     oneIteration.bitListInfo[position].inputLayer = numpy.DeepCopy(X);
-                    y = new double[1, output_dim] { { c[binary_dim - position - 1] } };
+                    y = new double[1, outputDim] { { c[binaryDim - position - 1] } };
                     y = numpy.Transpose(y);
 
                     //hidden layer (input ~+ prev_hidden)
-                    layer_1 = sigmoid(addTables(numpy.Dot(X, synapse_0), numpy.Dot(oneToTwoDimensions((double[])layer_1_values[layer_1_values.Count - 1]), synapse_h)));
-                    oneIteration.bitListInfo[position].hidden_layer = numpy.DeepCopy(layer_1);
+                    layer1 = sigmoid(addTables(numpy.Dot(X, synapse0), numpy.Dot(oneToTwoDimensions((double[])layer1Values[layer1Values.Count - 1]), synapseH)));
+                    oneIteration.bitListInfo[position].hiddenLayer = numpy.DeepCopy(layer1);
 
                     //output layer (new binary representation)
-                    layer_2 = sigmoid(numpy.Dot(layer_1, synapse_1));
-                    oneIteration.bitListInfo[position].pred_output_layer = numpy.DeepCopy(layer_2);
+                    layer2 = sigmoid(numpy.Dot(layer1, synapse1));
+                    oneIteration.bitListInfo[position].predOutputLayer = numpy.DeepCopy(layer2);
 
                     //did we miss?... if so, by how much?
-                    layer_2_error = subTables(y, layer_2);
-                    layer_2_deltas.Add(numpy.Dot((layer_2_error), sigmoid_output_to_derivative(layer_2)));
-                    overallError += numpy.Abs(getRow(layer_2_error, 0))[0];
+                    layer2Error = subTables(y, layer2);
+                    layer2Deltas.Add(numpy.Dot((layer2Error), sigmoidOutputToDerivative(layer2)));
+                    overallError += numpy.Abs(getRow(layer2Error, 0))[0];
 
                     //decode estimate so we can print it out
-                    d[binary_dim - position - 1] = numpy.Round(layer_2[0, 0]);
+                    d[binaryDim - position - 1] = numpy.Round(layer2[0, 0]);
 
                     //store hidden layer so we can use it in the next timestep
-                    layer_1_values.Add(getRow(numpy.DeepCopy(layer_1), 0));
+                    layer1Values.Add(getRow(numpy.DeepCopy(layer1), 0));
                 }
 
-                double[] future_layer_1_delta = numpy.Zeros(hidden_dim);
+                double[] futureLayer1Delta = numpy.Zeros(hiddenDim);
 
-                for (int position = 0; position < binary_dim; position++)
+                for (int position = 0; position < binaryDim; position++)
                 {
-                    X = new double[1, input_dim] { { a[position], b[position] } };
-                    layer_1 = oneToTwoDimensions((double[])layer_1_values[layer_1_values.Count - position - 1]);
-                    prev_layer_1 = (double[])layer_1_values[layer_1_values.Count - position - 2];
+                    X = new double[1, inputDim] { { a[position], b[position] } };
+                    layer1 = oneToTwoDimensions((double[])layer1Values[layer1Values.Count - position - 1]);
+                    prevLayer1 = (double[])layer1Values[layer1Values.Count - position - 2];
 
                     //error at output layer
-                    layer_2_delta = (double[,])layer_2_deltas[layer_2_deltas.Count - position - 1];
+                    layer2Delta = (double[,])layer2Deltas[layer2Deltas.Count - position - 1];
                     //error at hidden layer
 
-                    layer_1_delta = multiplyTable(addTables((numpy.Dot(oneToTwoDimensions(future_layer_1_delta), numpy.Transpose(synapse_h))), numpy.Dot(layer_2_delta, numpy.Transpose(synapse_1))), sigmoid_output_to_derivative(layer_1));
+                    layer1Delta = multiplyTable(addTables((numpy.Dot(oneToTwoDimensions(futureLayer1Delta), numpy.Transpose(synapseH))), numpy.Dot(layer2Delta, numpy.Transpose(synapse1))), sigmoidOutputToDerivative(layer1));
 
                     //let's update all our weights so we can try again
 
-                    synapse_1_update = addTables(synapse_1_update, numpy.Dot(numpy.Transpose(layer_1), layer_2_delta));
-                    synapse_h_update = addTables(synapse_h_update, numpy.Dot(numpy.Transpose(oneToTwoDimensions(prev_layer_1)), layer_1_delta));
-                    synapse_0_update = addTables(synapse_0_update, numpy.Dot(numpy.Transpose(X), layer_1_delta));
+                    synapse1Update = addTables(synapse1Update, numpy.Dot(numpy.Transpose(layer1), layer2Delta));
+                    synapseHUpdate = addTables(synapseHUpdate, numpy.Dot(numpy.Transpose(oneToTwoDimensions(prevLayer1)), layer1Delta));
+                    synapse0Update = addTables(synapse0Update, numpy.Dot(numpy.Transpose(X), layer1Delta));
 
-                    future_layer_1_delta = getRow(layer_1_delta, 0);
+                    futureLayer1Delta = getRow(layer1Delta, 0);
                 }
 
-                oneIteration.synapse_0_before = numpy.DeepCopy(synapse_0);
-                oneIteration.synapse_1_before = numpy.DeepCopy(synapse_1);
-                oneIteration.synapse_h_before = numpy.DeepCopy(synapse_h);
+                oneIteration.synapse0Before = numpy.DeepCopy(synapse0);
+                oneIteration.synapse1Before = numpy.DeepCopy(synapse1);
+                oneIteration.synapseHBefore = numpy.DeepCopy(synapseH);
 
                 if (j>0 && j<loop)
                 {
-                    lstmHistory[j - 1].synapse_0_after = oneIteration.synapse_0_before;
-                    lstmHistory[j - 1].synapse_1_after = oneIteration.synapse_1_before;
-                    lstmHistory[j - 1].synapse_h_after = oneIteration.synapse_h_before;
+                    lstmHistory[j - 1].synapse0After = oneIteration.synapse0Before;
+                    lstmHistory[j - 1].synapse1After = oneIteration.synapse1Before;
+                    lstmHistory[j - 1].synapseHAfter = oneIteration.synapseHBefore;
                 }
 
-                synapse_0 = addTables(synapse_0, multiplyTable(synapse_0_update, alpha));
-                synapse_1 = addTables(synapse_1, multiplyTable(synapse_1_update, alpha));
-                synapse_h = addTables(synapse_h, multiplyTable(synapse_h_update, alpha));
+                synapse0 = addTables(synapse0, multiplyTable(synapse0Update, alpha));
+                synapse1 = addTables(synapse1, multiplyTable(synapse1Update, alpha));
+                synapseH = addTables(synapseH, multiplyTable(synapseHUpdate, alpha));
 
                 if (j == loop - 1)
                 {
-                    oneIteration.synapse_0_after = numpy.DeepCopy(synapse_0);
-                    oneIteration.synapse_1_after = numpy.DeepCopy(synapse_1);
-                    oneIteration.synapse_h_after = numpy.DeepCopy(synapse_h);
+                    oneIteration.synapse0After = numpy.DeepCopy(synapse0);
+                    oneIteration.synapse1After = numpy.DeepCopy(synapse1);
+                    oneIteration.synapseHAfter = numpy.DeepCopy(synapseH);
                 }
 
-                synapse_0_update = multiplyTable(synapse_0_update, 0);
-                synapse_1_update = multiplyTable(synapse_1_update, 0);
-                synapse_h_update = multiplyTable(synapse_h_update, 0);
+                synapse0Update = multiplyTable(synapse0Update, 0);
+                synapse1Update = multiplyTable(synapse1Update, 0);
+                synapseHUpdate = multiplyTable(synapseHUpdate, 0);
 
                 //print out progress
-                out_result = 0;
+                outResult = 0;
                 for (int i = 0; i < d.Length; i++)
                 {
-                    out_result += (int)d[d.Length - 1 - i] * (1 << i);
+                    outResult += (int)d[d.Length - 1 - i] * (1 << i);
                 }
 
                 oneIteration.Error = overallError.ToString();
                 oneIteration.Pred = getStringFrom1dMatrix(d);
                 oneIteration.True = getStringFrom1dMatrix(c);
-                oneIteration.Wiz = a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString();
+                oneIteration.Wiz = aInt.ToString() + " + " + bInt.ToString() + " = " + outResult.ToString();
                 lstmHistory.Add(j, oneIteration);
 
                 if (j % 1000 == 0 || (j==loop-1))
                 {
-                    //Console.WriteLine("Error: " + overallError.ToString());
                     UpdateLError(overallError.ToString());
-                    //Console.Write("Pred: "); numpy.print_1d_matrix(d); Console.WriteLine("");
                     UpdateLPred(getStringFrom1dMatrix(d));
-                    //Console.Write("True: "); numpy.print_1d_matrix(c); Console.WriteLine("");
                     UpdateLTrue(getStringFrom1dMatrix(c));
-
-                    UpdateLWiz(a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString());
-                    //Console.WriteLine(a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString());
-                    //Console.WriteLine("------------");
+                    UpdateLWiz(aInt.ToString() + " + " + bInt.ToString() + " = " + outResult.ToString());
                 }
                
 
@@ -394,72 +388,66 @@ namespace LSTM_RNN
             }
         }
 
-        internal void testNetwork(int a_int, int b_int)
+        internal void testNetwork(int aInt, int bInt)
         {
-            int c_int, out_result;
+            int cInt, outResult;
             double[] a, b, c, d;
             double overallError;
-            ArrayList layer_2_deltas, layer_1_values;
-            double[,] X, y, layer_1, layer_2, layer_2_error;
+            ArrayList layer2Deltas, layer1Values;
+            double[,] X, y, layer1, layer2, layer2Error;
 
-            a = numberToBitArray(a_int, binary_dim);    //binary encoding
-            b = numberToBitArray(b_int, binary_dim);    //binary encoding
+            a = numberToBitArray(aInt, binaryDim);    //binary encoding
+            b = numberToBitArray(bInt, binaryDim);    //binary encoding
             //true answer
-            c_int = a_int + b_int;
-            c = numberToBitArray(c_int, binary_dim);
+            cInt = aInt + bInt;
+            c = numberToBitArray(cInt, binaryDim);
 
             //where we'll store our best guess (binary encoded)
-            d = numpy.Zeros_like(c);
+            d = numpy.ZerosLike(c);
 
             overallError = 0;
 
-            layer_2_deltas = new ArrayList();
-            layer_1_values = new ArrayList();
-            layer_1_values.Add(numpy.Zeros(hidden_dim));
+            layer2Deltas = new ArrayList();
+            layer1Values = new ArrayList();
+            layer1Values.Add(numpy.Zeros(hiddenDim));
 
             //moving along the positions in the binary encoding
-            for (int position = 0; position < binary_dim; position++)
+            for (int position = 0; position < binaryDim; position++)
             {
                 //generate input and output
-                X = new double[1, input_dim] { { a[binary_dim - position - 1], b[binary_dim - position - 1] } };
-                y = new double[1, output_dim] { { c[binary_dim - position - 1] } };
+                X = new double[1, inputDim] { { a[binaryDim - position - 1], b[binaryDim - position - 1] } };
+                y = new double[1, outputDim] { { c[binaryDim - position - 1] } };
                 y = numpy.Transpose(y);
 
                 //hidden layer (input ~+ prev_hidden)
-                layer_1 = sigmoid(addTables(numpy.Dot(X, synapse_0), numpy.Dot(oneToTwoDimensions((double[])layer_1_values[layer_1_values.Count - 1]), synapse_h)));
+                layer1 = sigmoid(addTables(numpy.Dot(X, synapse0), numpy.Dot(oneToTwoDimensions((double[])layer1Values[layer1Values.Count - 1]), synapseH)));
 
                 //output layer (new binary representation)
-                layer_2 = sigmoid(numpy.Dot(layer_1, synapse_1));
+                layer2 = sigmoid(numpy.Dot(layer1, synapse1));
 
                 //did we miss?... if so, by how much?
-                layer_2_error = subTables(y, layer_2);
-                layer_2_deltas.Add(numpy.Dot((layer_2_error), sigmoid_output_to_derivative(layer_2)));
-                overallError += numpy.Abs(getRow(layer_2_error, 0))[0];
+                layer2Error = subTables(y, layer2);
+                layer2Deltas.Add(numpy.Dot((layer2Error), sigmoidOutputToDerivative(layer2)));
+                overallError += numpy.Abs(getRow(layer2Error, 0))[0];
 
                 //decode estimate so we can print it out
-                d[binary_dim - position - 1] = numpy.Round(layer_2[0, 0]);
+                d[binaryDim - position - 1] = numpy.Round(layer2[0, 0]);
 
                 //store hidden layer so we can use it in the next timestep
-                layer_1_values.Add(getRow(numpy.DeepCopy(layer_1), 0));
+                layer1Values.Add(getRow(numpy.DeepCopy(layer1), 0));
             }
 
             //print out progress
-            out_result = 0;
+            outResult = 0;
             for (int i = 0; i < d.Length; i++)
             {
-                out_result += (int)d[d.Length - 1 - i] * (1 << i);
+                outResult += (int)d[d.Length - 1 - i] * (1 << i);
             }
 
-            //Console.WriteLine("Error: " + overallError.ToString());
             UpdateLError(overallError.ToString());
-            //Console.Write("Pred: "); numpy.print_1d_matrix(d); Console.WriteLine("");
             UpdateLPred(getStringFrom1dMatrix(d));
-            //Console.Write("True: "); numpy.print_1d_matrix(c); Console.WriteLine("");
             UpdateLTrue(getStringFrom1dMatrix(c));
-
-            UpdateLWiz(a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString());
-            //Console.WriteLine(a_int.ToString() + " + " + b_int.ToString() + " = " + out_result.ToString());
-            //Console.WriteLine("------------");
+            UpdateLWiz(aInt.ToString() + " + " + bInt.ToString() + " = " + outResult.ToString());
 
             Application.DoEvents();
         }

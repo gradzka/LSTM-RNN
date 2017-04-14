@@ -18,7 +18,7 @@ namespace LSTM_RNN
             random = new Random(val); // ustawienie ziarna generatora liczb pseudolosowych
         }
 
-        public void print_2d_matrix(double[,] matrix) // pomocnicza do wyswietlania macierzy 2D
+        public void print2dMatrix(double[,] matrix) // pomocnicza do wyswietlania macierzy 2D
         {
             int w = matrix.GetLength(0);
             int h = matrix.GetLength(1);
@@ -34,7 +34,7 @@ namespace LSTM_RNN
             //Console.ReadKey();
         }
 
-        public void print_1d_matrix(double[] matrix)  // pomocnicza do wyswietlania macierzy 1D=wektora
+        public void print1dMatrix(double[] matrix)  // pomocnicza do wyswietlania macierzy 1D=wektora
         {
             int w = matrix.GetLength(0);
 
@@ -117,12 +117,12 @@ namespace LSTM_RNN
            
         }
         
-        public double[,] Zeros_like(double[,] X)  // zwraca wyzerowana tablice o takiej samej wielkosci jak podana w argumencie
+        public double[,] ZerosLike(double[,] X)  // zwraca wyzerowana tablice o takiej samej wielkosci jak podana w argumencie
         {
             return new double[X.GetLength(0), X.GetLength(1)];
         }
 
-        public double[] Zeros_like(double[] X)  // zwraca wyzerowana tablice o takiej samej wielkosci jak podana w argumencie
+        public double[] ZerosLike(double[] X)  // zwraca wyzerowana tablice o takiej samej wielkosci jak podana w argumencie
         {
             return new double[X.GetLength(0)];
         }
@@ -239,7 +239,7 @@ namespace LSTM_RNN
             return result;
         }
 
-        public double[,] Atleast_2d(double[] matrix)
+        public double[,] atleast2d(double[] matrix)
         {
             /* na wejsciu: {1,2,3}
              * na wyjsciu: { {1,2,3},{0,0,0},{0,0,0} } = 3x3, pierwszy wiersz zawiera wektor z wejscia, reszta 0
@@ -263,7 +263,7 @@ namespace LSTM_RNN
             return result;
         }
 
-        public double[,] Atleast_2d(double[,] matrix)
+        public double[,] Atleast2d(double[,] matrix)
         {
             /* na wejsciu: { {1,2,3} }
              * na wyjsciu: { {1,2,3},{0,0,0},{0,0,0} } = 3x3, pierwszy wiersz zawiera pierwszy wiersz
