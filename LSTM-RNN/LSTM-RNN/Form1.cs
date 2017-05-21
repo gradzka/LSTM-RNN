@@ -295,5 +295,10 @@ namespace LSTM_RNN
         {
             lstm.testNetwork(Int32.Parse(NumL1.Text), Int32.Parse(NumL2.Text));
         }
+
+        private void testowanie_Click(object sender, EventArgs e)
+        {
+            lstm.testNetworkForTests();
+        }
     }
 }

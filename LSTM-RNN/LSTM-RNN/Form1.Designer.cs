@@ -73,6 +73,8 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.KontaktTS = new System.Windows.Forms.ToolStripButton();
             this.AboutTS = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.testowanie = new System.Windows.Forms.ToolStripLabel();
             this.GBTreining.SuspendLayout();
             this.GBSeed.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumRandom)).BeginInit();
@@ -575,7 +577,9 @@
             this.toolStrip1.BackColor = System.Drawing.Color.Transparent;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.KontaktTS,
-            this.AboutTS});
+            this.AboutTS,
+            this.toolStripLabel1,
+            this.testowanie});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 16, 0);
@@ -607,6 +611,19 @@
             this.AboutTS.Size = new System.Drawing.Size(78, 22);
             this.AboutTS.Text = "O programie";
             this.AboutTS.Click += new System.EventHandler(this.AboutTS_Click);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(0, 22);
+            // 
+            // testowanie
+            // 
+            this.testowanie.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.testowanie.Name = "testowanie";
+            this.testowanie.Size = new System.Drawing.Size(28, 22);
+            this.testowanie.Text = "Test";
+            this.testowanie.Click += new System.EventHandler(this.testowanie_Click);
             // 
             // MainWindow
             // 
@@ -699,6 +716,8 @@
         public System.Windows.Forms.Label LPred;
         public System.Windows.Forms.Label LError;
         public System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripLabel testowanie;
     }
 }
 

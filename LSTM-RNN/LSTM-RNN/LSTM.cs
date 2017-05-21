@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,35 @@ namespace LSTM_RNN
         public double[,] inputLayer; //X
         public double[,] hiddenLayer;
         public double[,] predOutputLayer;
+    }
+
+    static class Test
+    {
+        public static StreamWriter file;
+
+        public static void saveToFile(int a, int b, int pred_c, int c)
+        {
+            file = new StreamWriter("test40000-a100.txt", append: true);
+            var valid = "F";
+            if (pred_c == c)
+            {
+                valid = "T";
+            }
+            file.WriteLine(a.ToString() + "\t" + b.ToString() + "\t" + pred_c.ToString() + "\t" + c.ToString() + "\t" + valid);
+            file.Close();
+        }
+
+        public static void saveToFile2(int a, int b, int pred_c, int c)
+        {
+            file = new StreamWriter("test2-10tys-100.txt", append: true);
+            var valid = "F";
+            if (pred_c == c)
+            {
+                valid = "T";
+            }
+            file.WriteLine(a.ToString() + "\t" + b.ToString() + "\t" + pred_c.ToString() + "\t" + c.ToString() + "\t" + valid);
+            file.Close();
+        }
     }
 
     class LSTM
@@ -235,7 +265,7 @@ namespace LSTM_RNN
         internal event UpdateLWizDelegate UpdateLWiz;
 
         internal void trainNetwork()
-        {          
+        {
             //initialize neural network weights
             synapse0 = numpy.Random2D(inputDim, hiddenDim);
             synapse1 = numpy.Random2D(hiddenDim, outputDim);
@@ -373,6 +403,9 @@ namespace LSTM_RNN
                 oneIteration.Wiz = aInt.ToString() + " + " + bInt.ToString() + " = " + outResult.ToString();
                 lstmHistory.Add(j, oneIteration);
 
+                //Test.saveToFile(aInt, bInt, outResult, cInt); // --------- TEST ----------
+
+
                 if (j % 1000 == 0 || (j==loop-1))
                 {
                     UpdateLError(overallError.ToString());
@@ -380,7 +413,7 @@ namespace LSTM_RNN
                     UpdateLTrue(getStringFrom1dMatrix(c));
                     UpdateLWiz(aInt.ToString() + " + " + bInt.ToString() + " = " + outResult.ToString());
                 }
-               
+
 
                 //OnProgressBarChanged();
                 UpdateProgressBar();
@@ -450,6 +483,79 @@ namespace LSTM_RNN
             UpdateLWiz(aInt.ToString() + " + " + bInt.ToString() + " = " + outResult.ToString());
 
             Application.DoEvents();
+        }
+
+        internal void testNetworkForTests() // KRZYSIEK - dopisalem do testowania - przycisk jest w prawym gornym rogu w pasku
+        {
+            int tmp = 125;
+            for (int first = 0; first < tmp; first++)
+            {
+                for (int second = 0; second < tmp; second++)
+                {
+                    int aInt = first;
+                    int bInt = second;
+                    int cInt, outResult;
+                    double[] a, b, c, d;
+                    double overallError;
+                    ArrayList layer2Deltas, layer1Values;
+                    double[,] X, y, layer1, layer2, layer2Error;
+
+                    a = numberToBitArray(aInt, binaryDim);    //binary encoding
+                    b = numberToBitArray(bInt, binaryDim);    //binary encoding
+                                                              //true answer
+                    cInt = aInt + bInt;
+                    c = numberToBitArray(cInt, binaryDim);
+
+                    //where we'll store our best guess (binary encoded)
+                    d = numpy.ZerosLike(c);
+
+                    overallError = 0;
+
+                    layer2Deltas = new ArrayList();
+                    layer1Values = new ArrayList();
+                    layer1Values.Add(numpy.Zeros(hiddenDim));
+
+                    //moving along the positions in the binary encoding
+                    for (int position = 0; position < binaryDim; position++)
+                    {
+                        //generate input and output
+                        X = new double[1, inputDim] { { a[binaryDim - position - 1], b[binaryDim - position - 1] } };
+                        y = new double[1, outputDim] { { c[binaryDim - position - 1] } };
+                        y = numpy.Transpose(y);
+
+                        //hidden layer (input ~+ prev_hidden)
+                        layer1 = sigmoid(addTables(numpy.Dot(X, synapse0), numpy.Dot(oneToTwoDimensions((double[])layer1Values[layer1Values.Count - 1]), synapseH)));
+
+                        //output layer (new binary representation)
+                        layer2 = sigmoid(numpy.Dot(layer1, synapse1));
+
+                        //did we miss?... if so, by how much?
+                        layer2Error = subTables(y, layer2);
+                        layer2Deltas.Add(numpy.Dot((layer2Error), sigmoidOutputToDerivative(layer2)));
+                        overallError += numpy.Abs(getRow(layer2Error, 0))[0];
+
+                        //decode estimate so we can print it out
+                        d[binaryDim - position - 1] = numpy.Round(layer2[0, 0]);
+
+                        //store hidden layer so we can use it in the next timestep
+                        layer1Values.Add(getRow(numpy.DeepCopy(layer1), 0));
+                    }
+
+                    //print out progress
+                    outResult = 0;
+                    for (int i = 0; i < d.Length; i++)
+                    {
+                        outResult += (int)d[d.Length - 1 - i] * (1 << i);
+                    }
+
+                    //var error = overallError.ToString();
+                    //var pred = getStringFrom1dMatrix(d);
+                    //var result = getStringFrom1dMatrix(c);
+                    //UpdateLWiz(aInt.ToString() + " + " + bInt.ToString() + " = " + outResult.ToString());
+                    Test.saveToFile2(aInt, bInt, outResult, cInt);
+                    
+                }
+            }
         }
 
     }
