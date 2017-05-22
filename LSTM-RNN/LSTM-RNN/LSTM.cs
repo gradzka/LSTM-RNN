@@ -42,26 +42,26 @@ namespace LSTM_RNN
 
         public static void saveToFile(int a, int b, int pred_c, int c)
         {
-            file = new StreamWriter("test40000-a100.txt", append: true);
+            //file = new StreamWriter("test40000-a100.txt", append: true);
             var valid = "F";
             if (pred_c == c)
             {
                 valid = "T";
             }
             file.WriteLine(a.ToString() + "\t" + b.ToString() + "\t" + pred_c.ToString() + "\t" + c.ToString() + "\t" + valid);
-            file.Close();
+            //file.Close();
         }
 
         public static void saveToFile2(int a, int b, int pred_c, int c)
         {
-            file = new StreamWriter("test2-10tys-100.txt", append: true);
+            //file = new StreamWriter("test2-10tys-100.txt", append: true);
             var valid = "F";
             if (pred_c == c)
             {
                 valid = "T";
             }
             file.WriteLine(a.ToString() + "\t" + b.ToString() + "\t" + pred_c.ToString() + "\t" + c.ToString() + "\t" + valid);
-            file.Close();
+            //file.Close();
         }
     }
 
@@ -264,7 +264,7 @@ namespace LSTM_RNN
         internal delegate void UpdateLWizDelegate(string text);
         internal event UpdateLWizDelegate UpdateLWiz;
 
-        internal void trainNetwork()
+        internal void trainNetwork(Boolean ifChecked)
         {
             //initialize neural network weights
             synapse0 = numpy.Random2D(inputDim, hiddenDim);
@@ -282,6 +282,12 @@ namespace LSTM_RNN
             double[,] X, y, layer1, layer2, layer2Error, layer2Delta, layer1Delta;
 
             Iteration oneIteration;
+            if (ifChecked == true)
+            {
+                //test1-loop-alpha
+                string name = "test1-" + loop +"-"+ alpha+".txt";
+                Test.file = new StreamWriter(name, append: true);
+            }
 
             //training logic
             for (int j = 0; j < loop; j++)
@@ -403,7 +409,11 @@ namespace LSTM_RNN
                 oneIteration.Wiz = aInt.ToString() + " + " + bInt.ToString() + " = " + outResult.ToString();
                 lstmHistory.Add(j, oneIteration);
 
-                //Test.saveToFile(aInt, bInt, outResult, cInt); // --------- TEST ----------
+                if (ifChecked == true)
+                {
+                    Test.saveToFile(aInt, bInt, outResult, cInt);
+                }
+                
 
 
                 if (j % 1000 == 0 || (j==loop-1))
@@ -418,6 +428,11 @@ namespace LSTM_RNN
                 //OnProgressBarChanged();
                 UpdateProgressBar();
                 Application.DoEvents();
+                //Test.file.Close();
+                if (ifChecked == true)
+                {
+                    Test.file.Flush();
+                }
             }
         }
 
@@ -487,6 +502,7 @@ namespace LSTM_RNN
 
         internal void testNetworkForTests() // KRZYSIEK - dopisalem do testowania - przycisk jest w prawym gornym rogu w pasku
         {
+            Test.file = new StreamWriter("test2-10tys-100.txt", append: true);
             int tmp = 125;
             for (int first = 0; first < tmp; first++)
             {
@@ -556,6 +572,7 @@ namespace LSTM_RNN
                     
                 }
             }
+            Test.file.Close();
         }
 
     }

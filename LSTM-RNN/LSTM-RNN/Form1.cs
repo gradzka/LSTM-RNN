@@ -187,7 +187,7 @@ namespace LSTM_RNN
             //Controls
             HiddenLayer();
 
-            lstm.trainNetwork();
+            lstm.trainNetwork(ChBSaveTraining.Checked);
             GBOptions.Enabled = true;
             GBTest.Enabled = true;
 

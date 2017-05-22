@@ -74,7 +74,10 @@
             this.KontaktTS = new System.Windows.Forms.ToolStripButton();
             this.AboutTS = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.testowanie = new System.Windows.Forms.ToolStripLabel();
+            this.TestStrip = new System.Windows.Forms.ToolStripDropDownButton();
+            this.Test1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.Test2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ChBSaveTraining = new System.Windows.Forms.CheckBox();
             this.GBTreining.SuspendLayout();
             this.GBSeed.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumRandom)).BeginInit();
@@ -95,6 +98,7 @@
             // GBTreining
             // 
             this.GBTreining.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.GBTreining.Controls.Add(this.ChBSaveTraining);
             this.GBTreining.Controls.Add(this.GBSeed);
             this.GBTreining.Controls.Add(this.LCOutputDim);
             this.GBTreining.Controls.Add(this.LCInputDim);
@@ -337,9 +341,9 @@
             this.TrainingButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TrainingButton.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.TrainingButton.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.TrainingButton.Location = new System.Drawing.Point(28, 213);
+            this.TrainingButton.Location = new System.Drawing.Point(156, 213);
             this.TrainingButton.Name = "TrainingButton";
-            this.TrainingButton.Size = new System.Drawing.Size(223, 23);
+            this.TrainingButton.Size = new System.Drawing.Size(95, 23);
             this.TrainingButton.TabIndex = 7;
             this.TrainingButton.Text = "Trenuj";
             this.ToolTip.SetToolTip(this.TrainingButton, "Rozpocznij trenowanie sieci\r\nz zadanymi parametrami.");
@@ -579,7 +583,7 @@
             this.KontaktTS,
             this.AboutTS,
             this.toolStripLabel1,
-            this.testowanie});
+            this.TestStrip});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 16, 0);
@@ -617,13 +621,41 @@
             this.toolStripLabel1.Name = "toolStripLabel1";
             this.toolStripLabel1.Size = new System.Drawing.Size(0, 22);
             // 
-            // testowanie
+            // TestStrip
             // 
-            this.testowanie.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.testowanie.Name = "testowanie";
-            this.testowanie.Size = new System.Drawing.Size(28, 22);
-            this.testowanie.Text = "Test";
-            this.testowanie.Click += new System.EventHandler(this.testowanie_Click);
+            this.TestStrip.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.TestStrip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.TestStrip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Test1,
+            this.Test2});
+            this.TestStrip.Image = ((System.Drawing.Image)(resources.GetObject("TestStrip.Image")));
+            this.TestStrip.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.TestStrip.Name = "TestStrip";
+            this.TestStrip.Size = new System.Drawing.Size(42, 22);
+            this.TestStrip.Text = "Test";
+            // 
+            // Test1
+            // 
+            this.Test1.Name = "Test1";
+            this.Test1.Size = new System.Drawing.Size(184, 22);
+            this.Test1.Text = "Test trenowania sieci";
+            // 
+            // Test2
+            // 
+            this.Test2.Name = "Test2";
+            this.Test2.Size = new System.Drawing.Size(184, 22);
+            this.Test2.Text = "Test pełnego zakresu";
+            this.Test2.Click += new System.EventHandler(this.testowanie_Click);
+            // 
+            // ChBSaveTraining
+            // 
+            this.ChBSaveTraining.AutoSize = true;
+            this.ChBSaveTraining.Location = new System.Drawing.Point(14, 214);
+            this.ChBSaveTraining.Name = "ChBSaveTraining";
+            this.ChBSaveTraining.Size = new System.Drawing.Size(124, 18);
+            this.ChBSaveTraining.TabIndex = 6;
+            this.ChBSaveTraining.Text = "Zapisz trening";
+            this.ChBSaveTraining.UseVisualStyleBackColor = true;
             // 
             // MainWindow
             // 
@@ -717,7 +749,10 @@
         public System.Windows.Forms.Label LError;
         public System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
-        private System.Windows.Forms.ToolStripLabel testowanie;
+        private System.Windows.Forms.ToolStripDropDownButton TestStrip;
+        private System.Windows.Forms.ToolStripMenuItem Test1;
+        private System.Windows.Forms.ToolStripMenuItem Test2;
+        private System.Windows.Forms.CheckBox ChBSaveTraining;
     }
 }
 
