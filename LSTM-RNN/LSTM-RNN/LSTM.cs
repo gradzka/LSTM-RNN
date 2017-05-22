@@ -550,7 +550,7 @@ namespace LSTM_RNN
                     }
 
                     Test.saveToFile(aInt, bInt, outResult, cInt);
-                    //UpdateProgressBar();
+                    UpdateProgressBar();
 
                 }
             }
