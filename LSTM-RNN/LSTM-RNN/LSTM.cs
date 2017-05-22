@@ -42,26 +42,12 @@ namespace LSTM_RNN
 
         public static void saveToFile(int a, int b, int pred_c, int c)
         {
-            //file = new StreamWriter("test40000-a100.txt", append: true);
             var valid = "F";
             if (pred_c == c)
             {
                 valid = "T";
             }
             file.WriteLine(a.ToString() + "\t" + b.ToString() + "\t" + pred_c.ToString() + "\t" + c.ToString() + "\t" + valid);
-            //file.Close();
-        }
-
-        public static void saveToFile2(int a, int b, int pred_c, int c)
-        {
-            //file = new StreamWriter("test2-10tys-100.txt", append: true);
-            var valid = "F";
-            if (pred_c == c)
-            {
-                valid = "T";
-            }
-            file.WriteLine(a.ToString() + "\t" + b.ToString() + "\t" + pred_c.ToString() + "\t" + c.ToString() + "\t" + valid);
-            //file.Close();
         }
     }
 
@@ -69,7 +55,7 @@ namespace LSTM_RNN
     {
         NumpyCsharp numpy;
         int binaryDim;
-        int largestNumber;
+        public int largestNumber;
 
         //input variables
         double alpha;
@@ -285,7 +271,7 @@ namespace LSTM_RNN
             if (ifChecked == true)
             {
                 //test1-loop-alpha
-                string name = "test1-" + loop +"-"+ alpha+".txt";
+                string name = "trening-" + loop + "-" + alpha + ".txt";
                 Test.file = new StreamWriter(name, append: true);
             }
 
@@ -428,7 +414,6 @@ namespace LSTM_RNN
                 //OnProgressBarChanged();
                 UpdateProgressBar();
                 Application.DoEvents();
-                //Test.file.Close();
                 if (ifChecked == true)
                 {
                     Test.file.Flush();
@@ -500,10 +485,10 @@ namespace LSTM_RNN
             Application.DoEvents();
         }
 
-        internal void testNetworkForTests() // KRZYSIEK - dopisalem do testowania - przycisk jest w prawym gornym rogu w pasku
+        internal void testNetworkForTests() // test pelnego zakresu
         {
-            Test.file = new StreamWriter("test2-10tys-100.txt", append: true);
-            int tmp = 125;
+            Test.file = new StreamWriter("testPZ-"+ this.loop + "-" + this.alpha + ".txt", append: true);
+            int tmp = largestNumber;
             for (int first = 0; first < tmp; first++)
             {
                 for (int second = 0; second < tmp; second++)
@@ -564,12 +549,9 @@ namespace LSTM_RNN
                         outResult += (int)d[d.Length - 1 - i] * (1 << i);
                     }
 
-                    //var error = overallError.ToString();
-                    //var pred = getStringFrom1dMatrix(d);
-                    //var result = getStringFrom1dMatrix(c);
-                    //UpdateLWiz(aInt.ToString() + " + " + bInt.ToString() + " = " + outResult.ToString());
-                    Test.saveToFile2(aInt, bInt, outResult, cInt);
-                    
+                    Test.saveToFile(aInt, bInt, outResult, cInt);
+                    //UpdateProgressBar();
+
                 }
             }
             Test.file.Close();

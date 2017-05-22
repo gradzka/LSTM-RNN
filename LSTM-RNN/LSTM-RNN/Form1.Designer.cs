@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.GBTreining = new System.Windows.Forms.GroupBox();
+            this.ChBSaveTraining = new System.Windows.Forms.CheckBox();
             this.GBSeed = new System.Windows.Forms.GroupBox();
             this.CHBoxRandom = new System.Windows.Forms.CheckBox();
             this.NumRandom = new System.Windows.Forms.NumericUpDown();
@@ -75,9 +76,7 @@
             this.AboutTS = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.TestStrip = new System.Windows.Forms.ToolStripDropDownButton();
-            this.Test1 = new System.Windows.Forms.ToolStripMenuItem();
             this.Test2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ChBSaveTraining = new System.Windows.Forms.CheckBox();
             this.GBTreining.SuspendLayout();
             this.GBSeed.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumRandom)).BeginInit();
@@ -121,6 +120,16 @@
             this.GBTreining.TabIndex = 0;
             this.GBTreining.TabStop = false;
             this.GBTreining.Text = "TRENING";
+            // 
+            // ChBSaveTraining
+            // 
+            this.ChBSaveTraining.AutoSize = true;
+            this.ChBSaveTraining.Location = new System.Drawing.Point(14, 214);
+            this.ChBSaveTraining.Name = "ChBSaveTraining";
+            this.ChBSaveTraining.Size = new System.Drawing.Size(124, 18);
+            this.ChBSaveTraining.TabIndex = 6;
+            this.ChBSaveTraining.Text = "Zapisz trening";
+            this.ChBSaveTraining.UseVisualStyleBackColor = true;
             // 
             // GBSeed
             // 
@@ -626,36 +635,19 @@
             this.TestStrip.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.TestStrip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.TestStrip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Test1,
             this.Test2});
             this.TestStrip.Image = ((System.Drawing.Image)(resources.GetObject("TestStrip.Image")));
             this.TestStrip.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TestStrip.Name = "TestStrip";
-            this.TestStrip.Size = new System.Drawing.Size(42, 22);
+            this.TestStrip.Size = new System.Drawing.Size(41, 22);
             this.TestStrip.Text = "Test";
-            // 
-            // Test1
-            // 
-            this.Test1.Name = "Test1";
-            this.Test1.Size = new System.Drawing.Size(184, 22);
-            this.Test1.Text = "Test trenowania sieci";
             // 
             // Test2
             // 
             this.Test2.Name = "Test2";
-            this.Test2.Size = new System.Drawing.Size(184, 22);
+            this.Test2.Size = new System.Drawing.Size(183, 22);
             this.Test2.Text = "Test pełnego zakresu";
             this.Test2.Click += new System.EventHandler(this.testowanie_Click);
-            // 
-            // ChBSaveTraining
-            // 
-            this.ChBSaveTraining.AutoSize = true;
-            this.ChBSaveTraining.Location = new System.Drawing.Point(14, 214);
-            this.ChBSaveTraining.Name = "ChBSaveTraining";
-            this.ChBSaveTraining.Size = new System.Drawing.Size(124, 18);
-            this.ChBSaveTraining.TabIndex = 6;
-            this.ChBSaveTraining.Text = "Zapisz trening";
-            this.ChBSaveTraining.UseVisualStyleBackColor = true;
             // 
             // MainWindow
             // 
@@ -750,7 +742,6 @@
         public System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripDropDownButton TestStrip;
-        private System.Windows.Forms.ToolStripMenuItem Test1;
         private System.Windows.Forms.ToolStripMenuItem Test2;
         private System.Windows.Forms.CheckBox ChBSaveTraining;
     }
