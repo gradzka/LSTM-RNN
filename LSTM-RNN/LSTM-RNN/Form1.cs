@@ -23,12 +23,12 @@ namespace LSTM_RNN
             InitializeComponent();
         }
 
-        public void updateProgressBar()
+        private void UpdateProgressBar()
         {
             progressBar.Value += 1;
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void KontaktTS_Click(object sender, EventArgs e)
         {
             MessageBox.Show(
                             "Monika Grądzka:\t https://github.com/gradzka \n" +
@@ -48,11 +48,6 @@ namespace LSTM_RNN
                             "Program oparto na artykule:\n" +
                             "https://iamtrask.github.io/2015/11/15/anyone-can-code-lstm/.\n",
                             "O programie");
-        }
-
-        private void UpdateProgressBar()
-        {
-            progressBar.Value += 1;
         }
 
         private void UpdateLError(string text)

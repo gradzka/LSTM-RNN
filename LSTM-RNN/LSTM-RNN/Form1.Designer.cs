@@ -158,7 +158,7 @@
             // 
             this.NumRandom.Location = new System.Drawing.Point(128, 19);
             this.NumRandom.Maximum = new decimal(new int[] {
-            -1,
+            -2,
             0,
             0,
             0});
@@ -611,7 +611,7 @@
             this.KontaktTS.Name = "KontaktTS";
             this.KontaktTS.Size = new System.Drawing.Size(52, 22);
             this.KontaktTS.Text = "Kontakt";
-            this.KontaktTS.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.KontaktTS.Click += new System.EventHandler(this.KontaktTS_Click);
             // 
             // AboutTS
             // 
@@ -639,13 +639,13 @@
             this.TestStrip.Image = ((System.Drawing.Image)(resources.GetObject("TestStrip.Image")));
             this.TestStrip.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TestStrip.Name = "TestStrip";
-            this.TestStrip.Size = new System.Drawing.Size(41, 22);
+            this.TestStrip.Size = new System.Drawing.Size(42, 22);
             this.TestStrip.Text = "Test";
             // 
             // Test2
             // 
             this.Test2.Name = "Test2";
-            this.Test2.Size = new System.Drawing.Size(183, 22);
+            this.Test2.Size = new System.Drawing.Size(184, 22);
             this.Test2.Text = "Test pełnego zakresu";
             this.Test2.Click += new System.EventHandler(this.testowanie_Click);
             // 

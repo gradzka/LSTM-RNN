@@ -223,7 +223,7 @@ namespace LSTM_RNN
                 newArray[i] = array[row, i];
             return newArray;
         }
-        //Console.Write("Pred: "); numpy.print_1d_matrix(d); Console.WriteLine("");
+
         string getStringFrom1dMatrix(double[] d)
         {
             string Matrix1dString = string.Empty;
@@ -400,8 +400,6 @@ namespace LSTM_RNN
                     Test.saveToFile(aInt, bInt, outResult, cInt);
                 }
                 
-
-
                 if (j % 1000 == 0 || (j==loop-1))
                 {
                     UpdateLError(overallError.ToString());
@@ -409,7 +407,6 @@ namespace LSTM_RNN
                     UpdateLTrue(getStringFrom1dMatrix(c));
                     UpdateLWiz(aInt.ToString() + " + " + bInt.ToString() + " = " + outResult.ToString());
                 }
-
 
                 //OnProgressBarChanged();
                 UpdateProgressBar();
