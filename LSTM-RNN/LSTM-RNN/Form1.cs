@@ -298,14 +298,18 @@ namespace LSTM_RNN
 
         private void testowanie_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("Wykonaj ten test po wytrenowaniu sieci !!!\nPowiadomimy Cię o zakończeniu testu.",
+            DialogResult res = MessageBox.Show("Wykonaj ten test po wytrenowaniu sieci!!!\nPowiadomimy Cię o zakończeniu testu.",
                 "Test pełnego zakresu", MessageBoxButtons.OKCancel);
-            if (res == DialogResult.OK)
+            if (res == DialogResult.OK && lstm!=null)
             {
                 progressBar.Value = 0;
                 progressBar.Maximum = lstm.largestNumber * lstm.largestNumber;
                 lstm.testNetworkForTests();
                 MessageBox.Show("Test ukończony.", "Test pełnego zakresu");
+            }
+            else if (lstm==null)
+            {
+                MessageBox.Show("Sieć nie została wcześniej wytrenowana. Nie można przeprowadzić testu.", "Test pełnego zakresu");
             }
         }
     }
