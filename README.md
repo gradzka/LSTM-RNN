@@ -1,6 +1,8 @@
 # LSTM-RNN
 LSTM-RNN simulation in C#
 
+![alt text](https://github.com/gradzka/LSTM-RNN/blob/master/LSTM-RNN/LSTM-RNN/Pics/LSTM-RNN.png)
+
 # Overview
 **LSTM-RNN** is the project of graphical representation of the toy example - addition two numbers using LSTM RNN. The code is based on python implementation from https://iamtrask.github.io/2015/11/15/anyone-can-code-lstm/.
 
